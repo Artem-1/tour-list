@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourList", "TourList\TourList.csproj", "{E8D108CA-6D85-4D69-BBB5-321D1BC8F347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourList", "TourList\TourList.csproj", "{E8D108CA-6D85-4D69-BBB5-321D1BC8F347}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BA2A8F34-631B-4A75-A7BB-D74F8E797869} = {BA2A8F34-631B-4A75-A7BB-D74F8E797869}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourList.Model", "TourList.Model\TourList.Model.csproj", "{BA2A8F34-631B-4A75-A7BB-D74F8E797869}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourList.RepoService", "TourList.RepoService\TourList.RepoService.csproj", "{2511F710-DFE8-4E3F-9DF9-ECA440DF2904}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,14 @@ Global
 		{E8D108CA-6D85-4D69-BBB5-321D1BC8F347}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8D108CA-6D85-4D69-BBB5-321D1BC8F347}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8D108CA-6D85-4D69-BBB5-321D1BC8F347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA2A8F34-631B-4A75-A7BB-D74F8E797869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2A8F34-631B-4A75-A7BB-D74F8E797869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2A8F34-631B-4A75-A7BB-D74F8E797869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2A8F34-631B-4A75-A7BB-D74F8E797869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2511F710-DFE8-4E3F-9DF9-ECA440DF2904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2511F710-DFE8-4E3F-9DF9-ECA440DF2904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2511F710-DFE8-4E3F-9DF9-ECA440DF2904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2511F710-DFE8-4E3F-9DF9-ECA440DF2904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
