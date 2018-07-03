@@ -12,10 +12,6 @@ namespace TourList.RepoService
     public DbSet<TourExcursion> TourExcursions { get; set; }
     public DbSet<ExcursionSight> ExcursionSights { get; set; }
 
-    public TourListContext(DbContextOptions<TourListContext> options)
-      : base(options)
-    { }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<User>().Property(b => b.EmailAddress).IsRequired();

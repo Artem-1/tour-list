@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TourList.RepoService;
+using TourList.RepoService.Interfaces;
+using TourList.RepoService.Repositories;
 
 namespace TourList
 {
@@ -25,13 +28,24 @@ namespace TourList
     public void ConfigureServices(IServiceCollection services)
     {
       string con = Configuration.GetConnectionString("DefaultConnection");
-      services.AddDbContext<RepoService.TourListContext>(options => options.UseSqlServer(con));
+      services.AddDbContext<TourListContext>(options => options.UseSqlServer(con));
+
+      services.AddCors();
       services.AddMvc();
+
+      services.AddScoped<TourListContext>();
+      services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IClientRepository, ClientRepository>();
+      services.AddScoped<ITourRepository, TourRepository>();
+      services.AddScoped<IExcursionRepository, ExcursionRepository>();
+      services.AddScoped<IExcursionSightRepository, ExcursionSightRepository>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
+      app.UseCors(builder => builder.AllowAnyOrigin());
+
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();

@@ -12,10 +12,7 @@ namespace TourList.Model
 
     public Guid TourId { get; set; }
     public Tour Tour { get; set; }
-
-    public Guid ClientId { get; set; }
-    public Client Client { get; set; }
-
+    
     public ICollection<ExcursionSight> ExcursionSights { get; set; }
 
     public TourExcursion()

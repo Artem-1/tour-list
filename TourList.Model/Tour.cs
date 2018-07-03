@@ -7,6 +7,9 @@ namespace TourList.Model
   {
     public Guid Id { get; set; }
     public DateTime Date { get; set; }
+    
+    public Guid ClientId { get; set; }
+    public Client Client { get; set; }
 
     public ICollection<TourExcursion> TourEx { get; set; }
 
