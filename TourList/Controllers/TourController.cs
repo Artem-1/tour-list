@@ -5,11 +5,11 @@ using TourList.RepoService.Interfaces;
 namespace TourList.Controllers
 {
   [Produces("application/json")]
-  [Route("api/User")]
-  public class UserController : BaseTourListController<IUserRepository, User>
+  [Route("api/Tour")]
+  public class TourController : BaseTourListController<ITourRepository, Tour>
   {
-    public UserController(IUserRepository dbUser)
-      :base(dbUser)
+    public TourController(ITourRepository dbTour)
+      : base(dbTour)
     {
     }
   }
