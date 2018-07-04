@@ -12,6 +12,12 @@ namespace TourList.RepoService
     public DbSet<TourExcursion> TourExcursions { get; set; }
     public DbSet<ExcursionSight> ExcursionSights { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+      // drop config inside config file
+      optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=tourlistdb;Trusted_Connection=True;MultipleActiveResultSets=true");
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<User>().Property(b => b.EmailAddress).IsRequired();
