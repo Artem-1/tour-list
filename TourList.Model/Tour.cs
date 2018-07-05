@@ -8,14 +8,13 @@ namespace TourList.Model
     public Guid Id { get; set; }
     public DateTime Date { get; set; }
     
-    public Guid ClientId { get; set; }
-    public Client Client { get; set; }
-
-    public ICollection<TourExcursion> TourEx { get; set; }
+    public ICollection<TourClient> TourClients { get; set; }
+    public ICollection<TourExcursion> TourExcursions { get; set; }
 
     public Tour()
     {
-      TourEx = new List<TourExcursion>();
+      TourClients = new List<TourClient>();
+      TourExcursions = new List<TourExcursion>();
     }
   }
 }

@@ -9,6 +9,7 @@ namespace TourList.RepoService
     public DbSet<Client> Clients { get; set; }
     public DbSet<Tour> Tours { get; set; }
     public DbSet<Excursion> Excursions { get; set; }
+    public DbSet<TourClient> TourClients { get; set; }
     public DbSet<TourExcursion> TourExcursions { get; set; }
     public DbSet<ExcursionSight> ExcursionSights { get; set; }
 
@@ -21,6 +22,34 @@ namespace TourList.RepoService
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<User>().Property(b => b.EmailAddress).IsRequired();
+
+      //tourClient
+      modelBuilder.Entity<TourClient>()
+            .HasKey(t => new { t.TourId, t.ClientId });
+
+      modelBuilder.Entity<TourClient>()
+          .HasOne(tc => tc.Tour)
+          .WithMany(t => t.TourClients)
+          .HasForeignKey(tc => tc.TourId);
+
+      modelBuilder.Entity<TourClient>()
+          .HasOne(tc => tc.Client)
+          .WithMany(c => c.TourClients)
+          .HasForeignKey(tc => tc.ClientId);
+
+      //tourExcurtion
+      modelBuilder.Entity<TourExcursion>()
+            .HasKey(t => new { t.TourId, t.ExcursionId });
+
+      modelBuilder.Entity<TourExcursion>()
+          .HasOne(te => te.Tour)
+          .WithMany(t => t.TourExcursions)
+          .HasForeignKey(tc => tc.TourId);
+
+      modelBuilder.Entity<TourExcursion>()
+          .HasOne(te => te.Excursion)
+          .WithMany(e => e.TourExcursions)
+          .HasForeignKey(te => te.ExcursionId);
     }
   }
 }

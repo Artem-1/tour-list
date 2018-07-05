@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UrlToApi } from '../url-to-web-api';
-import { User } from '../../Model/user';
+import { Excursion } from '../../Model/excursion';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  
-  baseUrl = UrlToApi + 'api/User';
+export class ExcursionService {
+
+  baseUrl = UrlToApi + 'api/Excursion';
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers() {
-    return this.http.get<User[]>(this.baseUrl);
+  getAllExcursions() {
+    return this.http.get<Excursion[]>(this.baseUrl);
   }
 }

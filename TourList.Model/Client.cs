@@ -8,11 +8,11 @@ namespace TourList.Model
     public Guid Id { get; set; }
     public string Name { get; set; }
 
-    public ICollection<Tour> Tours { get; set; }
+    public ICollection<TourClient> TourClients { get; set; }
 
     public Client()
     {
-      Tours = new List<Tour>();
+      TourClients = new List<TourClient>();
     }
   }
 }

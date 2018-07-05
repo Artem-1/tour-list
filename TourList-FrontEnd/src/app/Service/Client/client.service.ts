@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UrlToApi } from '../url-to-web-api';
-import { User } from '../../Model/user';
+import { Client } from '../../Model/client';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  
-  baseUrl = UrlToApi + 'api/User';
+export class ClientService {
+
+  baseUrl = UrlToApi + 'api/Client';
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers() {
-    return this.http.get<User[]>(this.baseUrl);
+  getAllClients() {
+    return this.http.get<Client[]>(this.baseUrl);
   }
 }

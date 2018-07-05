@@ -5,8 +5,6 @@ namespace TourList.Model
 {
   public class TourExcursion
   {
-    public Guid Id { get; set; }
-
     public Guid ExcursionId { get; set; }
     public Excursion Excursion { get; set; }
 
