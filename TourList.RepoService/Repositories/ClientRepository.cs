@@ -18,7 +18,7 @@ namespace TourList.RepoService.Repositories
       _tourRepo = tourRepo;
     }
 
-    public ICollection<TourDto> GetTours(Guid idClient)
+    public IEnumerable<TourDto> GetTours(Guid idClient)
     {
       var client = _dbSet.Include(tc => tc.TourClients)
         .ThenInclude(tc => tc.Tour)
@@ -26,7 +26,11 @@ namespace TourList.RepoService.Repositories
 
       var tours = client.TourClients.Select(tc => tc.Tour).ToList();
 
-      return new List<TourDto>();
+      return tours.Select(t => new TourDto()
+      {
+        Id = t.Id,
+        Date = t.Date
+      });
     }
 
     protected override ClientDto GetDto(Client c)

@@ -18,13 +18,13 @@ namespace TourList.RepoService.Repositories
       _clientRepo = clientRepo;
     }
 
-    public IEnumerable<ClientDto> GetClients(Guid id)
+    public IEnumerable<ClientDto> GetClients(Guid idTour)
     {
       var tour = _dbSet.Include(tc => tc.TourClients)
-        .ThenInclude(c => c.Client)
-        .FirstOrDefault(t => t.Id == id);
+        .ThenInclude(tc => tc.Client)
+        .FirstOrDefault(t => t.Id == idTour);
 
-      var clients = tour.TourClients.Select(c => c.Client).ToList();
+      var clients = tour.TourClients.Select(tc => tc.Client).ToList();
 
       return clients.Select(c => new ClientDto()
       {

@@ -6,6 +6,6 @@ namespace TourList.RepoService.Interfaces
 {
   public interface IClientRepository : IRepository<ClientDto>
   {
-    ICollection<TourDto> GetTours(Guid id);
+    IEnumerable<TourDto> GetTours(Guid idClient);
   }
 }
