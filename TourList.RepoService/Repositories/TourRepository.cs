@@ -10,12 +10,9 @@ namespace TourList.RepoService.Repositories
 {
   public class TourRepository : BaseRepository<Tour, TourDto>, ITourRepository
   {
-    readonly IClientRepository _clientRepo;
-
-    public TourRepository(TourListContext dbContext, IClientRepository clientRepo)
+    public TourRepository(TourListContext dbContext)
       : base(dbContext, dbContext.Tours)
     {
-      _clientRepo = clientRepo;
     }
 
     public IEnumerable<ClientDto> GetClients(Guid idTour)
@@ -33,6 +30,11 @@ namespace TourList.RepoService.Repositories
       });
     }
 
+    public void AddClient(Guid idTour, Guid idClient)
+    {
+      _dbContext.TourClients.Add(new TourClient() { TourId = idTour, ClientId = idClient });
+    }
+
     protected override TourDto GetDto(Tour entity)
     {
       return new TourDto()
@@ -44,7 +46,11 @@ namespace TourList.RepoService.Repositories
 
     protected override Tour GetModel(TourDto entity)
     {
-      throw new System.NotImplementedException();
+      return new Tour()
+      {
+        Id = entity.Id,
+        Date = entity.Date
+      };
     }
   }
 }

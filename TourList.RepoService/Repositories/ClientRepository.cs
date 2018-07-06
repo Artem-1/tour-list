@@ -10,12 +10,9 @@ namespace TourList.RepoService.Repositories
 {
   public class ClientRepository : BaseRepository<Client, ClientDto>, IClientRepository
   {
-    private readonly ITourRepository _tourRepo;
-
-    public ClientRepository(TourListContext dbContext, ITourRepository tourRepo)
+    public ClientRepository(TourListContext dbContext)
       : base(dbContext, dbContext.Clients)
     {
-      _tourRepo = tourRepo;
     }
 
     public IEnumerable<TourDto> GetTours(Guid idClient)
