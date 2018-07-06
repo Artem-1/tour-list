@@ -1,6 +1,8 @@
-﻿namespace TourList.RepoService.Interfaces
+﻿using TourList.Dto;
+
+namespace TourList.RepoService.Interfaces
 {
-  public interface IExcursionRepository : IRepository<Model.Excursion>
+  public interface IExcursionRepository : IRepository<ExcursionDto>
   {
   }
 }

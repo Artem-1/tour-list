@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TourList.Model\TourList.Model.csproj" />
+    <ProjectReference Include="..\TourList.Dto\TourList.Dto.csproj" />
     <ProjectReference Include="..\TourList.RepoService\TourList.RepoService.csproj" />
   </ItemGroup>
 

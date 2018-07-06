@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TourList.Dto\TourList.Dto.csproj" />
     <ProjectReference Include="..\TourList.Model\TourList.Model.csproj" />
   </ItemGroup>
 

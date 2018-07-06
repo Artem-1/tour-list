@@ -1,10 +1,50 @@
-﻿namespace TourList.RepoService.Repositories
+﻿using TourList.Model;
+using TourList.Dto;
+using TourList.RepoService.Interfaces;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
+namespace TourList.RepoService.Repositories
 {
-  public class TourRepository : BaseRepository<Model.Tour>, Interfaces.ITourRepository
+  public class TourRepository : BaseRepository<Tour, TourDto>, ITourRepository
   {
-    public TourRepository(TourListContext dbContext)
+    readonly IClientRepository _clientRepo;
+
+    public TourRepository(TourListContext dbContext, IClientRepository clientRepo)
       : base(dbContext, dbContext.Tours)
     {
+      _clientRepo = clientRepo;
+    }
+
+    public IEnumerable<ClientDto> GetClients(Guid id)
+    {
+      var tour = _dbSet.Include(tc => tc.TourClients)
+        .ThenInclude(c => c.Client)
+        .FirstOrDefault(t => t.Id == id);
+
+      var clients = tour.TourClients.Select(c => c.Client).ToList();
+
+      return clients.Select(c => new ClientDto()
+      {
+        Id = c.Id,
+        Name = c.Name
+      });
+    }
+
+    protected override TourDto GetDto(Tour entity)
+    {
+      return new TourDto()
+      {
+        Id = entity.Id,
+        Date = entity.Date
+      };
+    }
+
+    protected override Tour GetModel(TourDto entity)
+    {
+      throw new System.NotImplementedException();
     }
   }
 }

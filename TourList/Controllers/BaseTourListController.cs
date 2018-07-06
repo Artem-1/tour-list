@@ -5,9 +5,9 @@ using TourList.RepoService.Interfaces;
 
 namespace TourList.Controllers
 {
-  public class BaseTourListController<TIRepo, TEntity> : Controller
-    where TIRepo : IRepository<TEntity>
-    where TEntity : class
+  public class BaseTourListController<TIRepo, TEntityDto> : Controller
+    where TIRepo : IRepository<TEntityDto>
+    where TEntityDto : class
   {
     protected TIRepo _dbEntity;
 
@@ -18,30 +18,30 @@ namespace TourList.Controllers
 
     // GET: api/[Entity]
     [HttpGet]
-    public IEnumerable<TEntity> Get()
+    public IEnumerable<TEntityDto> Get()
     {
-      return _dbEntity.GetList();
+      return _dbEntity.GetAll();
     }
 
     // GET: api/[Entity]/5
     [HttpGet("{id}")]
-    public TEntity Get(Guid id)
+    public TEntityDto Get(Guid id)
     {
       return _dbEntity.GetEntity(id);
     }
 
     // POST: api/[Entity]
     [HttpPost]
-    public void Post([FromBody]TEntity item)
+    public void Post([FromBody]TEntityDto item)
     {
-      _dbEntity.Update(item);
+      _dbEntity.Create(item);
     }
 
     // PUT: api/[Entity]
     [HttpPut]
-    public void Put([FromBody]TEntity item)
+    public void Put([FromBody]TEntityDto item)
     {
-      _dbEntity.Create(item);
+      _dbEntity.Update(item);
     }
 
     // DELETE: api/ApiWithActions/5

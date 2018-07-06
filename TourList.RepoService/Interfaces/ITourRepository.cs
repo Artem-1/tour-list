@@ -1,6 +1,8 @@
-﻿namespace TourList.RepoService.Interfaces
+﻿using TourList.Dto;
+
+namespace TourList.RepoService.Interfaces
 {
-  public interface ITourRepository : IRepository<Model.Tour>
+  public interface ITourRepository : IRepository<TourDto>
   {
   }
 }

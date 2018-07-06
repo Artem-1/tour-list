@@ -1,46 +1,47 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TourList.RepoService
 {
-  public class BaseRepository<T> : Interfaces.IRepository<T>
-    where T: class
+  public abstract class BaseRepository<TEntity, TDto> : Interfaces.IRepository<TDto>
+    where TEntity: class
   {
     private bool disposed = false;
 
-    private TourListContext _dbContext;
-    private DbSet<T> _dbSet;
+    protected TourListContext _dbContext;
+    protected DbSet<TEntity> _dbSet;
     
-    public BaseRepository(TourListContext context, DbSet<T> dbSet)
+    public BaseRepository(TourListContext context, DbSet<TEntity> dbSet)
     {
       _dbContext = context;
       _dbSet = dbSet;
     }
 
-    public IEnumerable<T> GetList()
+    public IEnumerable<TDto> GetAll()
     {
-      return _dbSet;
+      return _dbSet.Select(c => GetDto(c));
     }
 
-    public T GetEntity(Guid id)
+    public TDto GetEntity(Guid id)
     {
-      return _dbSet.Find(id);
+      return GetDto(_dbSet.Find(id));
     }
 
-    public void Create(T entity)
+    public void Create(TDto item)
     {
-      _dbSet.Add(entity);
+      _dbSet.Add(GetModel(item));
     }
 
-    public void Update(T entity)
+    public void Update(TDto item)
     {
-      _dbContext.Entry(entity).State = EntityState.Modified;
+      _dbContext.Entry(GetModel(item)).State = EntityState.Modified;
     }
 
     public void Delete(Guid id)
     {
-      T entity = _dbSet.Find(id);
+      TEntity entity = _dbSet.Find(id);
       if (entity != null)
         _dbSet.Remove(entity);
     }
@@ -67,5 +68,8 @@ namespace TourList.RepoService
       Dispose(true);
       GC.SuppressFinalize(this);
     }
+
+    protected abstract TDto GetDto(TEntity entity);
+    protected abstract TEntity GetModel(TDto entity);
   }
 }
