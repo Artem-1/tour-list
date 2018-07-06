@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TourList.Dto\TourList.Dto.csproj" />
+    <ProjectReference Include="..\TourList.RepoService\TourList.RepoService.csproj" />
+  </ItemGroup>
+
+</Project>
