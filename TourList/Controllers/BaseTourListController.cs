@@ -1,54 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using TourList.RepoService.Interfaces;
+using TourList.Service.Interfaces;
 
 namespace TourList.Controllers
 {
-  public class BaseTourListController<TIRepo, TEntityDto> : Controller
-    where TIRepo : IRepository<TEntityDto>
-    where TEntityDto : class
+  public class BaseTourListController<TService, TDto> : Controller
+    where TService : IService<TDto>
   {
-    protected TIRepo _dbEntity;
+    protected TService _service;
 
-    public BaseTourListController(TIRepo dbEntity)
+    public BaseTourListController(TService service)
     {
-      _dbEntity = dbEntity;
+      _service = service;
     }
 
-    // GET: api/[Entity]
+    // GET: api/[controller]
     [HttpGet]
-    public IEnumerable<TEntityDto> Get()
+    public IEnumerable<TDto> Get()
     {
-      return _dbEntity.GetAll();
+      return _service.GetAll();
     }
 
-    // GET: api/[Entity]/5
+    // GET: api/[controller]/5
     [HttpGet("{id}")]
-    public TEntityDto Get(Guid id)
+    public TDto Get(Guid id)
     {
-      return _dbEntity.GetEntity(id);
+      return _service.Get(id);
     }
 
-    // POST: api/[Entity]
+    // POST: api/[controller]
     [HttpPost]
-    public void Post([FromBody]TEntityDto item)
+    public void Post([FromBody]TDto item)
     {
-      _dbEntity.Create(item);
+      _service.Create(item);
     }
 
-    // PUT: api/[Entity]
+    // PUT: api/[controller]
     [HttpPut]
-    public void Put([FromBody]TEntityDto item)
+    public void Put([FromBody]TDto item)
     {
-      _dbEntity.Update(item);
+      _service.Update(item);
     }
 
     // DELETE: api/ApiWithActions/5
     [HttpDelete("{id}")]
     public void Delete(Guid id)
     {
-      _dbEntity.Delete(id);
+      _service.Delete(id);
     }
   }
 }

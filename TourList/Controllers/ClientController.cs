@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TourList.Dto;
 using TourList.Model;
-using TourList.RepoService.Interfaces;
+using TourList.Service.Interfaces;
 
 namespace TourList.Controllers
 {
   [Produces("application/json")]
   [Route("api/Client")]
-  public class ClientController : BaseTourListController<IClientRepository, ClientDto>
+  public class ClientController : BaseTourListController<IClientService, ClientDto>
   {
-    public ClientController(IClientRepository dbClient)
-      : base(dbClient)
+    public ClientController(IClientService service)
+      : base(service)
     {
     }
   }

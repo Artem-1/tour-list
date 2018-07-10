@@ -7,8 +7,8 @@ namespace TourList.Dto
   {
     public Guid Id { get; set; }
     public DateTime Date { get; set; }
-    public ICollection<ClientDto> Clients { get; set; }
-    public ICollection<ExcursionSightDto> ExcursionSights { get; set; }
-    public ICollection<ExcursionDto> Excursions { get; set; }
+    public ClientDto Client { get; set; }
+    public ExcursionDto Excursion { get; set; }
+    public ICollection<SnapshotSightDto> SnapshotSights { get; set; }
   }
 }

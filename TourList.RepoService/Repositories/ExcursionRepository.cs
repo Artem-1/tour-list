@@ -1,25 +1,26 @@
 ﻿using TourList.Model;
-using TourList.Dto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
-namespace TourList.RepoService.Repositories
+namespace TourList.Data.Repositories
 {
-  public class ExcursionRepository : BaseRepository<Excursion, ExcursionDto>, Interfaces.IExcursionRepository
+  public class ExcursionRepository : BaseRepository<Excursion>, Interfaces.IExcursionRepository
   {
     public ExcursionRepository(TourListContext dbContext)
       : base(dbContext, dbContext.Excursions)
     {
     }
 
-    protected override ExcursionDto GetDto(Excursion entity)
+    public void AddSight(Guid idExcursion, Guid idSight)
     {
-      return new ExcursionDto()
-      {
-      };
+
     }
 
-    protected override Excursion GetModel(ExcursionDto entity)
+    public ICollection<ExcursionSight> GetExcursionSights(Guid idExcursion)
     {
-      return new Excursion();
+      return null;
     }
   }
 }

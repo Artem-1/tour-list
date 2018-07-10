@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TourList.RepoService
+namespace TourList.Data
 {
-  public abstract class BaseRepository<TEntity, TDto> : Interfaces.IRepository<TDto>
+  public abstract class BaseRepository<TEntity> : Interfaces.IRepository<TEntity>
     where TEntity: class
   {
     private bool disposed = false;
@@ -19,24 +19,29 @@ namespace TourList.RepoService
       _dbSet = dbSet;
     }
 
-    public IEnumerable<TDto> GetAll()
+    public virtual IEnumerable<TEntity> GetAll()
     {
-      return _dbSet.Select(c => GetDto(c));
+      return _dbSet;
     }
 
-    public TDto GetEntity(Guid id)
+    public virtual TEntity GetEntity(Guid id)
     {
-      return GetDto(_dbSet.Find(id));
+      return _dbSet.Find(id);
     }
 
-    public void Create(TDto item)
+    public IEnumerable<TEntity> Find(Func<TEntity, Boolean> predicate)
     {
-      _dbSet.Add(GetModel(item));
+      return _dbSet.Where(predicate).ToList();
     }
 
-    public void Update(TDto item)
+    public void Create(TEntity entity)
     {
-      _dbContext.Entry(GetModel(item)).State = EntityState.Modified;
+      _dbSet.Add(entity);
+    }
+
+    public void Update(TEntity entity)
+    {
+      _dbContext.Entry(entity).State = EntityState.Modified;
     }
 
     public void Delete(Guid id)
@@ -68,8 +73,5 @@ namespace TourList.RepoService
       Dispose(true);
       GC.SuppressFinalize(this);
     }
-
-    protected abstract TDto GetDto(TEntity entity);
-    protected abstract TEntity GetModel(TDto entity);
   }
 }

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using TourList.Dto;
+using TourList.Model;
 
-namespace TourList.RepoService.Interfaces
+namespace TourList.Data.Interfaces
 {
-  public interface ITourRepository : IRepository<TourDto>
+  public interface ITourRepository : IRepository<Tour>
   {
-    IEnumerable<ClientDto> GetClients(Guid idTour);
-    void AddClient(Guid idTour, Guid idClient);
   }
 }

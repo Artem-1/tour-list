@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TourList.Dto;
 using TourList.Model;
-using TourList.RepoService.Interfaces;
+using TourList.Service.Interfaces;
 
 namespace TourList.Controllers
 {
   [Produces("application/json")]
   [Route("api/ExcursionSight")]
-  public class ExcursionSightController : BaseTourListController<IExcursionSightRepository, ExcursionSightDto>
+  public class ExcursionSightController : BaseTourListController<IExcursionSightService, ExcursionSightDto>
   {
-    public ExcursionSightController(IExcursionSightRepository dbExcursionSight)
-      :base(dbExcursionSight)
+    public ExcursionSightController(IExcursionSightService serivce)
+      : base(serivce)
     {
     }
   }

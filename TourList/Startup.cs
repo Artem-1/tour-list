@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TourList.RepoService;
-using TourList.RepoService.Interfaces;
-using TourList.RepoService.Repositories;
+using TourList.Data;
+using TourList.Data.Interfaces;
+using TourList.Data.Repositories;
+using TourList.Service.Interfaces;
+using TourList.Service.Implementation;
 
 namespace TourList
 {
@@ -29,6 +31,8 @@ namespace TourList
       services.AddScoped<ITourRepository, TourRepository>();
       services.AddScoped<IExcursionRepository, ExcursionRepository>();
       services.AddScoped<IExcursionSightRepository, ExcursionSightRepository>();
+
+      services.AddScoped<ITourService, TourService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

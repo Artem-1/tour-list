@@ -1,8 +1,8 @@
-﻿using TourList.Dto;
+﻿using TourList.Model;
 
-namespace TourList.RepoService.Interfaces
+namespace TourList.Data.Interfaces
 {
-  public interface IUserRepository : IRepository<UserDto>
+  public interface IUserRepository : IRepository<User>
   {
   }
 }

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace TourList.Model
 {
-  public class Client
+  public class SnapshotSight
   {
     public Guid Id { get; set; }
     public string Name { get; set; }
 
-    public ICollection<Tour> Tours { get; set; }
-    
-    public Client()
-    {
-      Tours = new List<Tour>();
-    }
+    public Guid TourId { get; set; }
+    public Tour Tour { get; set; }
   }
 }
