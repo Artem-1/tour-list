@@ -18,5 +18,10 @@ namespace TourList.Data.Repositories
     {
       return _dbSet.Include(t => t.Client).Include(t => t.Excursion);
     }
+
+    public override Tour GetEntity(Guid id)
+    {
+      return _dbSet.Include(t => t.Client).Include(t => t.Excursion).FirstOrDefault(t => t.Id == id);
+    }
   }
 }
