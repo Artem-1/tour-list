@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TourList.Dto;
-using TourList.Model;
 using TourList.Service.Interfaces;
 
 namespace TourList.Controllers
@@ -9,8 +8,8 @@ namespace TourList.Controllers
   [Route("api/ExcursionSight")]
   public class ExcursionSightController : BaseTourListController<IExcursionSightService, ExcursionSightDto>
   {
-    public ExcursionSightController(IExcursionSightService serivce)
-      : base(serivce)
+    public ExcursionSightController(IServiceInject serivce)
+      : base(serivce.ExcursionSights)
     {
     }
   }

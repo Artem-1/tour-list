@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using TourList.Data.Interfaces;
 using TourList.Model;
-using TourList.Data.Interfaces;
 
 namespace TourList.Data.Repositories
 {
@@ -12,11 +8,6 @@ namespace TourList.Data.Repositories
     public ClientRepository(TourListContext dbContext)
       : base(dbContext, dbContext.Clients)
     {
-    }
-
-    public ICollection<Tour> GetTours(Guid idClient)
-    {
-      return null;
     }
   }
 }

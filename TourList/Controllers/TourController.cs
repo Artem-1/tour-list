@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using TourList.Dto;
-using TourList.Model;
 using TourList.Service.Interfaces;
 
 namespace TourList.Controllers
@@ -10,8 +8,8 @@ namespace TourList.Controllers
   [Route("api/Tour")]
   public class TourController : BaseTourListController<ITourService, TourDto>
   {
-    public TourController(ITourService serivce)
-      : base(serivce)
+    public TourController(IServiceInject serivce)
+      : base(serivce.Tours)
     {
     }
   }

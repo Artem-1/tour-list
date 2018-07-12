@@ -10,8 +10,8 @@ namespace TourList.Service.Implementation
 {
   public class ExcursionSightService : BaseService<ExcursionSightDto, ExcursionSight>, IExcursionSightService
   {
-    public ExcursionSightService(IExcursionSightRepository repository)
-      : base(repository)
+    public ExcursionSightService(IRepositoryInject repository)
+      : base(repository.ExcursionSights)
     {
     }
   }

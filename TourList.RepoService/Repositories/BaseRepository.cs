@@ -8,8 +8,6 @@ namespace TourList.Data
   public abstract class BaseRepository<TEntity> : Interfaces.IRepository<TEntity>
     where TEntity: class
   {
-    private bool disposed = false;
-
     protected TourListContext _dbContext;
     protected DbSet<TEntity> _dbSet;
     
@@ -49,29 +47,6 @@ namespace TourList.Data
       TEntity entity = _dbSet.Find(id);
       if (entity != null)
         _dbSet.Remove(entity);
-    }
-
-    public void Save()
-    {
-      _dbContext.SaveChanges();
-    }
-
-    public virtual void Dispose(bool disposing)
-    {
-      if (!disposed)
-      {
-        if (disposing)
-        {
-          _dbContext.Dispose();
-        }
-      }
-      disposed = true;
-    }
-
-    public void Dispose()
-    {
-      Dispose(true);
-      GC.SuppressFinalize(this);
     }
   }
 }

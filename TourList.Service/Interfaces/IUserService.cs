@@ -2,7 +2,7 @@
 
 namespace TourList.Service.Interfaces
 {
-  public interface IClientService : IService<ClientDto>
+  public interface IUserService : IService<UserDto>
   {
   }
 }

@@ -26,13 +26,8 @@ namespace TourList
       services.AddMvc();
 
       services.AddScoped<TourListContext>();
-      services.AddScoped<IUserRepository, UserRepository>();
-      services.AddScoped<IClientRepository, ClientRepository>();
-      services.AddScoped<ITourRepository, TourRepository>();
-      services.AddScoped<IExcursionRepository, ExcursionRepository>();
-      services.AddScoped<IExcursionSightRepository, ExcursionSightRepository>();
-
-      services.AddScoped<ITourService, TourService>();
+      services.AddScoped<IRepositoryInject, RepositoryInject>();
+      services.AddScoped<IServiceInject, ServiceInject>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

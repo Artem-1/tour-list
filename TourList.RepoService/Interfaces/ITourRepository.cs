@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using TourList.Model;
+﻿using TourList.Model;
 
 namespace TourList.Data.Interfaces
 {

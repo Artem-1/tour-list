@@ -10,8 +10,8 @@ namespace TourList.Service.Implementation
 {
   public class ClientService : BaseService<ClientDto, Client>, IClientService
   {
-    public ClientService(IClientRepository repository)
-      : base(repository)
+    public ClientService(IRepositoryInject repository)
+      : base(repository.Clients)
     {
     }
   }

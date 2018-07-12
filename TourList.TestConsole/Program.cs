@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using TourList.Dto;
-using TourList.Service;
-using TourList.Service.Interfaces;
-using TourList.Service.Implementation;
 using TourList.Data;
-using TourList.Data.Interfaces;
 using TourList.Data.Repositories;
+using TourList.Dto;
+using TourList.Service.Implementation;
+using TourList.Service.Interfaces;
 
 namespace TourList.TestConsole
 {
@@ -19,30 +17,19 @@ namespace TourList.TestConsole
 
     static void CreateData(TourListContext db)
     {
-      clientService.Create(new ClientDto() { Id = Guid.NewGuid(), Name = "Andrey" });
-      clientService.Create(new ClientDto() { Id = Guid.NewGuid(), Name = "Alexey" });
-      clientService.Create(new ClientDto() { Id = Guid.NewGuid(), Name = "Artem" });
-      clientService.Create(new ClientDto() { Id = Guid.NewGuid(), Name = "Denys" });
-      clientService.Create(new ClientDto() { Id = Guid.NewGuid(), Name = "Ivan" });
-      clientService.Create(new ClientDto() { Id = Guid.NewGuid(), Name = "Sergey" });
+      var client1 = new ClientDto() { Id = Guid.NewGuid(), Name = "Alexandr" };
+      var client2 = new ClientDto() { Id = Guid.NewGuid(), Name = "Roman" };
 
-      excursionService.Create(new ExcursionDto() { Id = Guid.NewGuid(), Name = "Kiyv" });
-      excursionService.Create(new ExcursionDto() { Id = Guid.NewGuid(), Name = "Kharkiv" });
-      excursionService.Create(new ExcursionDto() { Id = Guid.NewGuid(), Name = "Lviv" });
+      var ex1 = new ExcursionDto() { Id = Guid.NewGuid(), Name = "Kiyv" };
+      var ex2 = new ExcursionDto() { Id = Guid.NewGuid(), Name = "Kharkiv" };
 
-      db.SaveChanges();
+      var tour1 = new TourDto() { Id = Guid.NewGuid(), Date = new DateTime(2018, 08, 01), Client = client1, Excursion = ex1 };
+      var tour2 = new TourDto() { Id = Guid.NewGuid(), Date = new DateTime(2018, 08, 01), Client = client2, Excursion = ex1 };
+      var tour3 = new TourDto() { Id = Guid.NewGuid(), Date = new DateTime(2018, 08, 01), Client = client1, Excursion = ex2 };
 
-      var client1 = clientService.GetAll().FirstOrDefault(c => c.Name == "Artem");
-      var client2 = clientService.GetAll().FirstOrDefault(c => c.Name == "Denys");
-      var client3 = clientService.GetAll().FirstOrDefault(c => c.Name == "Sergey");
-
-      var ex1 = excursionService.GetAll().FirstOrDefault(c => c.Name == "Kiyv");
-      var ex2 = excursionService.GetAll().FirstOrDefault(c => c.Name == "Lviv");
-
-      tourService.Create(new TourDto() { Id = Guid.NewGuid(), Date = new DateTime(2018, 08, 01), Client = client1, Excursion = ex1 });
-      tourService.Create(new TourDto() { Id = Guid.NewGuid(), Date = new DateTime(2018, 07, 23), Client = client2, Excursion = ex2 });
-      tourService.Create(new TourDto() { Id = Guid.NewGuid(), Date = new DateTime(2018, 09, 04), Client = client1, Excursion = ex2 });
-      tourService.Create(new TourDto() { Id = Guid.NewGuid(), Date = new DateTime(2018, 07, 15), Client = client3, Excursion = ex1 });
+      tourService.Create(tour1);
+      tourService.Create(tour2);
+      tourService.Create(tour3);
 
       db.SaveChanges();
     }
@@ -51,19 +38,28 @@ namespace TourList.TestConsole
     {
       using (var db = new TourListContext())
       {
-        tourService = new TourService(new TourRepository(db));
-        clientService = new ClientService(new ClientRepository(db));
-        excursionService = new ExcursionService(new ExcursionRepository(db));
-        sightService = new ExcursionSightService(new ExcursionSightRepository(db));
+        var unitwork = new RepositoryInject(db);
+
+        tourService = new TourService(unitwork);
+        clientService = new ClientService(unitwork);
+        excursionService = new ExcursionService(unitwork);
+        sightService = new ExcursionSightService(unitwork);
 
         //CreateData(db);
 
         foreach (var tour in tourService.GetAll())
           Console.WriteLine($"{tour.Date}\t {tour.Client.Name}\t {tour.Excursion.Name}");
 
-        Console.WriteLine(new string('=', 20));
-      }
+        Console.WriteLine(new string('=', 40));
 
+        foreach (var client in clientService.GetAll())
+          Console.WriteLine($"{client.Name}, {client.Id}");
+
+        Console.WriteLine(new string('=', 40));
+
+        foreach (var ex in excursionService.GetAll())
+          Console.WriteLine($"{ex.Name}, {ex.Id}");
+      }
     }
   }
 }
