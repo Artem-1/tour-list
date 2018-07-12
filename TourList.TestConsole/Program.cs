@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using TourList.Data;
+using TourList.Data.Interfaces;
 using TourList.Data.Repositories;
 using TourList.Dto;
 using TourList.Service.Implementation;
@@ -10,12 +10,7 @@ namespace TourList.TestConsole
 {
   class Program
   {
-    static ITourService tourService;
-    static IClientService clientService;
-    static IExcursionService excursionService;
-    static IExcursionSightService sightService;
-
-    static void CreateData(TourListContext db)
+    static void CreateTours(ITourService tourService)
     {
       var client1 = new ClientDto() { Id = Guid.NewGuid(), Name = "Alexandr" };
       var client2 = new ClientDto() { Id = Guid.NewGuid(), Name = "Roman" };
@@ -30,34 +25,28 @@ namespace TourList.TestConsole
       tourService.Create(tour1);
       tourService.Create(tour2);
       tourService.Create(tour3);
-
-      db.SaveChanges();
     }
 
     static void Main(string[] args)
     {
       using (var db = new TourListContext())
       {
-        var unitwork = new RepositoryInject(db);
+        IRepositoryInject repository = new RepositoryInject(db);
+        IServiceInject service = new ServiceInject(repository);
 
-        tourService = new TourService(unitwork);
-        clientService = new ClientService(unitwork);
-        excursionService = new ExcursionService(unitwork);
-        sightService = new ExcursionSightService(unitwork);
+        CreateTours(service.Tours);
 
-        //CreateData(db);
-
-        foreach (var tour in tourService.GetAll())
+        foreach (var tour in service.Tours.GetAll())
           Console.WriteLine($"{tour.Date}\t {tour.Client.Name}\t {tour.Excursion.Name}");
 
         Console.WriteLine(new string('=', 40));
 
-        foreach (var client in clientService.GetAll())
+        foreach (var client in service.Clients.GetAll())
           Console.WriteLine($"{client.Name}, {client.Id}");
 
         Console.WriteLine(new string('=', 40));
 
-        foreach (var ex in excursionService.GetAll())
+        foreach (var ex in service.Excursions.GetAll())
           Console.WriteLine($"{ex.Name}, {ex.Id}");
       }
     }
