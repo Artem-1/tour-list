@@ -1,4 +1,5 @@
-﻿using TourList.Model;
+﻿using System.Collections.Generic;
+using TourList.Model;
 
 namespace TourList.Data.Repositories
 {
@@ -7,6 +8,16 @@ namespace TourList.Data.Repositories
     public ExcursionSightRepository(TourListContext dbContext)
       : base(dbContext, dbContext.ExcursionSights)
     {
+    }
+
+    public void AddRange(IEnumerable<ExcursionSight> entities)
+    {
+      _dbSet.AddRange(entities);
+    }
+
+    public void RemoveRange(IEnumerable<ExcursionSight> entities)
+    {
+      _dbSet.RemoveRange(entities);
     }
   }
 }

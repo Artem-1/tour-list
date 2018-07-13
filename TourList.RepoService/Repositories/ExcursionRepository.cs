@@ -13,14 +13,14 @@ namespace TourList.Data.Repositories
     {
     }
 
-    public void AddSight(Guid idExcursion, Guid idSight)
+    public override IEnumerable<Excursion> GetAll()
     {
-
+      return _dbSet.Include(e => e.ExcursionSights);
     }
 
-    public ICollection<ExcursionSight> GetExcursionSights(Guid idExcursion)
+    public override Excursion GetEntity(Guid id)
     {
-      return null;
+      return _dbSet.Include(e => e.ExcursionSights).FirstOrDefault(e => e.Id == id);
     }
   }
 }

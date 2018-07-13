@@ -11,13 +11,13 @@ namespace TourList.Service.Implementation
 
     public BaseService(IRepository<TEntity> repository)
     {
-      TypeAdapterConfig<TEntity, TDto>.NewConfig().MaxDepth(1);
+      TypeAdapterConfig<TEntity, TDto>.NewConfig().MaxDepth(3);
       _repository = repository;
     }
 
     public IEnumerable<TDto> GetAll()
     {
-      TypeAdapterConfig<IEnumerable<TEntity>, IEnumerable<TDto>>.NewConfig().MaxDepth(1);
+      TypeAdapterConfig<IEnumerable<TEntity>, IEnumerable<TDto>>.NewConfig().MaxDepth(3);
       return TypeAdapter.Adapt<IEnumerable<TEntity>, IEnumerable<TDto>>(_repository.GetAll());
     }
 
@@ -27,13 +27,13 @@ namespace TourList.Service.Implementation
       return TypeAdapter.Adapt<TEntity, TDto>(entity);
     }
 
-    public void Create(TDto dto)
+    public virtual void Create(TDto dto)
     {
       var entity = TypeAdapter.Adapt<TDto, TEntity>(dto);
       _repository.Create(entity);
     }
 
-    public void Update(TDto dto)
+    public virtual void Update(TDto dto)
     {
       var entity = TypeAdapter.Adapt<TDto, TEntity>(dto);
       _repository.Update(entity);
