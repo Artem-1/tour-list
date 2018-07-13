@@ -8,7 +8,7 @@ import { Tour } from '../../Model/tour';
 })
 export class TourService {
 
-  baseUrl = UrlToApi + 'api/Tour/';
+  private baseUrl = UrlToApi + 'api/Tour/';
 
   constructor(private http: HttpClient) { }
 

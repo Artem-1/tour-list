@@ -1,3 +1,27 @@
-<p>
-  tour-list works!
-</p>
+<div class="listTour">
+
+  <button mat-raised-button class="add-tour" (click)="openDialog()" >Add new tour</button>
+  <br /><br />
+
+  <table mat-table [dataSource]="tours" class="tour-list-table">
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let tour">{{tour.date}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="excursion">
+      <th mat-header-cell *matHeaderCellDef>Excursion</th>
+      <td mat-cell *matCellDef="let tour">{{tour.excursion.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="client">
+      <th mat-header-cell *matHeaderCellDef>Client</th>
+      <td mat-cell *matCellDef="let tour">{{tour.client.name}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>

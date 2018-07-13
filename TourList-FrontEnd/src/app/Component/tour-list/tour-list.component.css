@@ -1,0 +1,12 @@
+.tour-list-table{
+    width: 100%;
+}
+
+.listTour{
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+button.mat-raised-button.add-tour{
+    background-color: rgba(134, 236, 206, 0.74);
+}

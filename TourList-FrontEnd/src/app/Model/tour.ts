@@ -5,7 +5,7 @@ import { ExcursionSight } from './excursion-sight';
 export class Tour {
     id: string;
     date: string;
-    clients: Client[];
-    excursions: Excursion[];
+    client: Client;
+    excursion: Excursion;
     excursionSights: ExcursionSight[];
 }

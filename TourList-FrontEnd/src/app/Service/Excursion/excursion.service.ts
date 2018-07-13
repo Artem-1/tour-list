@@ -8,7 +8,7 @@ import { Excursion } from '../../Model/excursion';
 })
 export class ExcursionService {
 
-  baseUrl = UrlToApi + 'api/Excursion';
+  private baseUrl = UrlToApi + 'api/Excursion';
 
   constructor(private http: HttpClient) { }
 
