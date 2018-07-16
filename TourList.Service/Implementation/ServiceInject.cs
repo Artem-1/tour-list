@@ -11,6 +11,7 @@ namespace TourList.Service.Implementation
     private readonly IClientService _clients;
     private readonly IExcursionService _excursions;
     private readonly IExcursionSightService _excursionSights;
+    private readonly ISnapshotSightService _snapshotSights;
     private readonly IUserService _users;
 
     public ITourService Tours =>
@@ -24,6 +25,9 @@ namespace TourList.Service.Implementation
 
     public IExcursionSightService ExcursionSights =>
       (_excursionSights == null) ? new ExcursionSightService(_repository) : _excursionSights;
+
+    public ISnapshotSightService SnapshotSights =>
+      (_snapshotSights == null) ? new SnapshotSightService(_repository) : _snapshotSights;
 
     public IUserService Users =>
       (_excursionSights == null) ? new UserService(_repository) : _users;

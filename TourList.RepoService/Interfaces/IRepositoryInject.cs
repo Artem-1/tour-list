@@ -8,6 +8,7 @@ namespace TourList.Data.Interfaces
     IClientRepository Clients { get; }
     IExcursionRepository Excursions { get; }
     IExcursionSightRepository ExcursionSights { get; }
+    ISnapshotSightRepository SnapshotSights { get; }
     IUserRepository Users { get; }
     void Save();
   }

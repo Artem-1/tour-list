@@ -12,6 +12,7 @@ namespace TourList.Data.Repositories
     private IClientRepository _clients;
     private IExcursionRepository _excursions;
     private IExcursionSightRepository _excursionSights;
+    private ISnapshotSightRepository _snapshotSights;
     private IUserRepository _users;
 
     public ITourRepository Tours => 
@@ -25,6 +26,9 @@ namespace TourList.Data.Repositories
 
     public IExcursionSightRepository ExcursionSights => 
       (_excursionSights == null) ? new ExcursionSightRepository(_context) : _excursionSights;
+
+    public ISnapshotSightRepository SnapshotSights =>
+      (_snapshotSights == null) ? new SnapshotSightRepository(_context) : _snapshotSights;
 
     public IUserRepository Users =>
       (_excursionSights == null) ? new UserRepository(_context) : _users;

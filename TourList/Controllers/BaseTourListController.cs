@@ -28,26 +28,5 @@ namespace TourList.Controllers
     {
       return _service.Get(id);
     }
-
-    // POST: api/[controller]
-    [HttpPost]
-    public void Post([FromBody]TDto item)
-    {
-      _service.Create(item);
-    }
-
-    // PUT: api/[controller]
-    [HttpPut]
-    public void Put([FromBody]TDto item)
-    {
-      _service.Update(item);
-    }
-
-    // DELETE: api/ApiWithActions/5
-    [HttpDelete("{id}")]
-    public void Delete(Guid id)
-    {
-      _service.Delete(id);
-    }
   }
 }

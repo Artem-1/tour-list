@@ -12,5 +12,19 @@ namespace TourList.Controllers
       : base(serivce.Tours)
     {
     }
+
+    // POST: api/[controller]
+    [HttpPost]
+    public void Post([FromBody]TourDto item)
+    {
+      _service.Create(item);
+    }
+
+    // PUT: api/[controller]
+    [HttpPut]
+    public void Put([FromBody]TourDto item)
+    {
+      _service.Edit(item);
+    }
   }
 }

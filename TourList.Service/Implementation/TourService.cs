@@ -1,7 +1,4 @@
-﻿using FastMapper.NetCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using TourList.Data.Interfaces;
 using TourList.Dto;
 using TourList.Model;
@@ -11,69 +8,41 @@ namespace TourList.Service.Implementation
 {
   public class TourService : BaseService<TourDto, Tour>, ITourService
   {
-    private IRepositoryInject _db;
+    private ITourRepository _tours;
+    private IClientRepository _clients;
+    private IExcursionRepository _excursions;
+    private IExcursionSightRepository _excursionSights;
 
     public TourService(IRepositoryInject repository)
       : base(repository.Tours)
     {
-      _db = repository;
+      _tours = repository.Tours;
+      _clients = repository.Clients;
+      _excursions = repository.Excursions;
+      _excursionSights = repository.ExcursionSights;
     }
 
-    public override void Create(TourDto dto)
+    public void Create(TourDto dto)
     {
-      var tour = Apply(dto);
-      _repository.Create(tour);
+      _tours.Create(new Tour()
+      {
+        Date = dto.Date,
+        ClientId = dto.Client.Id,
+        ExcursionId = dto.Excursion.Id
+      });
     }
 
-    public override void Update(TourDto dto)
+    public void Edit(TourDto dto)
     {
-      var tour = Apply(dto);
-      _repository.Update(tour);
-    }
+      var tour = _tours.GetEntity(dto.Id);
 
-    private Tour Apply(TourDto dto)
-    {
-      var entity = TypeAdapter.Adapt<TourDto, Tour>(dto);
+      if (tour == null || tour.Client == null || tour.Excursion == null)
+        throw new InvalidOperationException();
 
-      if (_db.Clients.GetEntity(entity.Client.Id) == null)
-      {
-        entity.Client.Id = Guid.NewGuid();
-        _db.Clients.Create(entity.Client);
-      }
+      tour.ClientId = dto.Client.Id;
+      tour.ExcursionId = dto.Excursion.Id;
 
-      if (_db.Excursions.GetEntity(entity.Excursion.Id) == null)
-      {
-        entity.Excursion.Id = Guid.NewGuid();
-        _db.Excursions.Create(entity.Excursion);
-
-        foreach (var sight in entity.Excursion.ExcursionSights)
-        {
-          sight.Id = Guid.NewGuid();
-          _db.ExcursionSights.Create(sight);
-        }
-      }
-      else
-      {
-        var en = _db.Excursions.GetEntity(entity.Excursion.Id);
-        var sights = entity.Excursion.ExcursionSights;
-
-        foreach (var item in sights)
-        {
-          if (_db.ExcursionSights.GetEntity(item.Id) == null)
-          {
-            item.Id = Guid.NewGuid();
-            item.ExcursionId = en.Id;
-            _db.ExcursionSights.Create(item);
-          }
-        }
-
-        foreach (var item in en.ExcursionSights)
-        {
-          if (sights.FirstOrDefault(s => s.Id == item.Id) == null)
-            _db.ExcursionSights.Delete(item.Id);
-        }
-      }
-      return entity;
+      _tours.Update(tour);
     }
   }
 }

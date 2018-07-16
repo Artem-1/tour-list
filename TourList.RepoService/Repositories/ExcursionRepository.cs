@@ -22,5 +22,10 @@ namespace TourList.Data.Repositories
     {
       return _dbSet.Include(e => e.ExcursionSights).FirstOrDefault(e => e.Id == id);
     }
+
+    public Excursion FindByName(string name)
+    {
+      return _dbSet.SingleOrDefault(e => e.Name == name);
+    }
   }
 }

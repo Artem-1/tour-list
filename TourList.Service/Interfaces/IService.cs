@@ -7,9 +7,5 @@ namespace TourList.Service.Interfaces
   {
     IEnumerable<TDto> GetAll();
     TDto Get(Guid id);
-    IEnumerable<TDto> Find(Func<TDto, Boolean> predicate);
-    void Create(TDto dto);
-    void Update(TDto dto);
-    void Delete(Guid id);
   }
 }

@@ -11,36 +11,63 @@ namespace TourList.Service.Implementation
 {
   public class ExcursionService : BaseService<ExcursionDto, Excursion>, IExcursionService
   {
-    private IRepositoryInject _db;
+    private IExcursionRepository _excursions;
+    private IExcursionSightRepository _excursionSights;
 
     public ExcursionService(IRepositoryInject repository)
       : base(repository.Excursions)
     {
-      _db = repository;
+      _excursions = repository.Excursions;
+      _excursionSights = repository.ExcursionSights;
     }
 
-    public override void Update(ExcursionDto dto)
+    public Guid Set(string name, IEnumerable<ExcursionSightDto> sights)
     {
-      var en = _repository.GetEntity(dto.Id);
-      var sights = TypeAdapter.Adapt<ICollection<ExcursionSightDto>, ICollection<ExcursionSight>>(dto.ExcursionSights);
+      var excursion = _excursions.FindByName(name);
 
-      foreach (var item in sights)
+      if (excursion == null)
       {
-        if (_db.ExcursionSights.GetEntity(item.Id) == null)
+        if (sights.Count() < 1)
+          throw new Exception();
+
+        return Create(name, sights);
+      }
+
+      SetSights(name, sights);
+
+      return excursion.Id;
+    }
+
+    private Guid Create(string name, IEnumerable<ExcursionSightDto> sights)
+    {
+      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSightDto>, IEnumerable<ExcursionSight>>(sights);
+      var newExcursion = new Excursion() { Id = Guid.NewGuid(), Name = name, ExcursionSights = newSights.ToList() };
+      _excursions.Create(newExcursion);
+      return newExcursion.Id;
+    }
+
+    private void SetSights(string name, IEnumerable<ExcursionSightDto> sights)
+    {
+      var excursion = _excursions.FindByName(name);
+
+      var oldSights = excursion.ExcursionSights;
+      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSightDto>, IEnumerable<ExcursionSight>>(sights);
+
+      foreach (var item in oldSights)
+      {
+        if (oldSights.SingleOrDefault(s => s.Id == item.Id) == null)
+          _excursionSights.Delete(item.Id);
+      }
+
+      foreach (var item in newSights)
+      {
+        if (_excursionSights.GetEntity(item.Id) == null)
         {
           item.Id = Guid.NewGuid();
-          item.ExcursionId = en.Id;
-          _db.ExcursionSights.Create(item);
+          item.ExcursionId = excursion.Id;
+          _excursionSights.Create(item);
         }
       }
-
-      foreach (var item in en.ExcursionSights)
-      {
-        if (sights.FirstOrDefault(s => s.Id == item.Id) == null)
-          _db.ExcursionSights.Delete(item.Id);
-      }
-
-      _repository.Update(en);
     }
 
   }

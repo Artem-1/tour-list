@@ -12,5 +12,13 @@ namespace TourList.Controllers
       : base(service.Excursions)
     {
     }
+
+    // api/[controller]
+    [HttpPost]
+    [HttpPut]
+    public void Set([FromBody]ExcursionDto item)
+    {
+      _service.Set(item.Name, item.ExcursionSights);
+    }
   }
 }

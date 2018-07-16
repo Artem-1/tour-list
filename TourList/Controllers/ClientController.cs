@@ -12,5 +12,12 @@ namespace TourList.Controllers
       : base(service.Clients)
     {
     }
+
+    // POST: api/[controller]
+    [HttpPost]
+    public void Post([FromBody]string item)
+    {
+      _service.Set(item);
+    }
   }
 }
