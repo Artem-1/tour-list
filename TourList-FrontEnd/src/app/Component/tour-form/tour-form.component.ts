@@ -7,12 +7,11 @@ import { Excursion } from '../../Model/excursion';
 import { Client } from '../../Model/client';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  tour: Tour;
 }
 
 @Component({
@@ -28,7 +27,6 @@ export class TourFormComponent implements OnInit {
 
   myControl = new FormControl();
   filteredOptions: Observable<Excursion[]>;
-  //options: string[] = ['One', 'Two', 'Three'];
 
   constructor(
     private excursionService: ExcursionService,
@@ -39,16 +37,22 @@ export class TourFormComponent implements OnInit {
   ngOnInit(){    
     this.getAllExcursions();
     this.getAllClients();
+    
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
-        startWith(''),
-        map(value => this._filter(value))
+        startWith<string | Excursion>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.excursions)
       );
   }
 
-  private _filter(value: string): Excursion[] {
-    const filterValue = value.toLowerCase();
-    return this.excursions.filter(option => option.name.toLowerCase().includes(filterValue));
+  displayFn(excursion?: Excursion): string | undefined {
+    return excursion ? excursion.name : undefined;
+  }
+
+  private _filter(name: string) : Excursion[] {
+    const filterValue = name.toLowerCase();
+    return this.excursions.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   getAllExcursions(){

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Tour} from '../../Model/tour';
 import { TourService } from '../../Service/Tour/tour.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { TourFormComponent } from '../tour-form/tour-form.component';
 
 @Component({
@@ -13,6 +13,8 @@ export class TourListComponent implements OnInit {
 
   tours: Tour[];
   str: string = "test form";
+
+
 
   displayedColumns: string[] = ["date", "excursion", "client"];
 
@@ -35,12 +37,21 @@ export class TourListComponent implements OnInit {
     const dialogRef = this.dialog.open(TourFormComponent, {
       height: '500px',
       width: '600px',
-      data: { name: this.str }
+      data: { tour: new Tour }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.str = result;
     });
+  }
+
+  onCreate()
+  {
+    this.openDialog();
+  }
+
+  onEdit(item: Tour): void {
+    this.openDialog();
   }
 }

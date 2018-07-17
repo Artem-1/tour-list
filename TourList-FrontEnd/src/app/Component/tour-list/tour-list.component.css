@@ -10,3 +10,12 @@
 button.mat-raised-button.add-tour{
     background-color: rgba(134, 236, 206, 0.74);
 }
+
+.tour-item{
+    background-color: rgb(191, 225, 236);
+}
+
+tr.tour-item:hover {
+    background-color: rgb(159, 211, 226);
+    color: rgb(192, 55, 55);
+  }

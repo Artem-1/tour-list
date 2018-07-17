@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>New tour</h1>
-<div mat-dialog-content>
+<!-- <div mat-dialog-content></div> -->
   
   <div>
     <p>Date:</p>
@@ -13,10 +13,10 @@
   <div>
     <p>Excursion</p>
     <mat-form-field>
-      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="exc">
+      <input type="text" placeholder="put excursion" matInput [formControl]="myControl" [matAutocomplete]="auto">
     </mat-form-field>
-    <mat-autocomplete #exc="matAutocomplete">
-      <mat-option *ngFor="let option of excursions | async" [value]="option.name">{{option.name}}</mat-option>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{ option.name }}</mat-option>
     </mat-autocomplete>
   </div>
 
@@ -24,5 +24,3 @@
     <button mat-button (click)="onNoClick()">No Thanks</button>
     <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
   </div>
-
-</div>
