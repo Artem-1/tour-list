@@ -8,34 +8,29 @@ namespace TourList.Data.Repositories
     private bool disposed = false;
 
     private readonly TourListContext _context;
-    private ITourRepository _tours;
-    private IClientRepository _clients;
-    private IExcursionRepository _excursions;
-    private IExcursionSightRepository _excursionSights;
-    private ISnapshotSightRepository _snapshotSights;
-    private IUserRepository _users;
 
-    public ITourRepository Tours => 
-      (_tours == null) ? new TourRepository(_context) : _tours;
+    public ITourRepository Tours { get; }
+    public IClientRepository Clients { get; }
+    public IExcursionRepository Excursions { get; }
+    public IExcursionSightRepository ExcursionSights { get; }
+    public ISnapshotSightRepository SnapshotSights { get; }
+    public IUserRepository Users { get; }
 
-    public IClientRepository Clients => 
-      (_clients == null) ? new ClientRepository(_context) : _clients;
-    
-    public IExcursionRepository Excursions => 
-      (_excursions == null) ? new ExcursionRepository(_context) : _excursions;
-
-    public IExcursionSightRepository ExcursionSights => 
-      (_excursionSights == null) ? new ExcursionSightRepository(_context) : _excursionSights;
-
-    public ISnapshotSightRepository SnapshotSights =>
-      (_snapshotSights == null) ? new SnapshotSightRepository(_context) : _snapshotSights;
-
-    public IUserRepository Users =>
-      (_excursionSights == null) ? new UserRepository(_context) : _users;
-
-    public RepositoryInject(TourListContext context)
+    public RepositoryInject(TourListContext context,
+                            ITourRepository tours,
+                            IClientRepository clients,
+                            IExcursionRepository excursions,
+                            IExcursionSightRepository excursionSights,
+                            ISnapshotSightRepository snapshotSights,
+                            IUserRepository users)
     {
       _context = context;
+      Tours = tours;
+      Clients = clients;
+      Excursions = excursions;
+      ExcursionSights = excursionSights;
+      SnapshotSights = snapshotSights;
+      Users = users;
     }
 
     public void Save()

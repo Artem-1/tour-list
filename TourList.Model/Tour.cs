@@ -14,7 +14,7 @@ namespace TourList.Model
     public Guid ClientId { get; set; }
     public Client Client { get; set; }
 
-    public ICollection<SnapshotSight> SnapshotSights { get; set; }
+    public IEnumerable<SnapshotSight> SnapshotSights { get; set; }
 
     public Tour()
     {

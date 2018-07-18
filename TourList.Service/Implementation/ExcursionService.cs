@@ -9,21 +9,29 @@ using TourList.Service.Interfaces;
 
 namespace TourList.Service.Implementation
 {
-  public class ExcursionService : BaseService<ExcursionDto, Excursion>, IExcursionService
+  public class ExcursionService : IExcursionService
   {
-    private IExcursionRepository _excursions;
-    private IExcursionSightRepository _excursionSights;
+    private readonly IRepositoryInject _uow;
 
     public ExcursionService(IRepositoryInject repository)
-      : base(repository.Excursions)
     {
-      _excursions = repository.Excursions;
-      _excursionSights = repository.ExcursionSights;
+      _uow = repository;
     }
 
-    public Guid Set(string name, IEnumerable<ExcursionSightDto> sights)
+    public IEnumerable<ExcursionDto> GetAll()
     {
-      var excursion = _excursions.FindByName(name);
+      return TypeAdapter.Adapt<IEnumerable<ExcursionDto>>(_uow.Excursions.GetAll());
+    }
+
+    public ExcursionDto Get(Guid excursionId)
+    {
+      var entity = _uow.Excursions.GetEntity(excursionId);
+      return TypeAdapter.Adapt<ExcursionDto>(entity);
+    }
+
+    public Guid SetExcursion(string name, IEnumerable<ExcursionSightDto> sights)
+    {
+      var excursion = _uow.Excursions.FindByName(name);
 
       if (excursion == null)
       {
@@ -40,32 +48,32 @@ namespace TourList.Service.Implementation
 
     private Guid Create(string name, IEnumerable<ExcursionSightDto> sights)
     {
-      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSightDto>, IEnumerable<ExcursionSight>>(sights);
+      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSight>>(sights);
       var newExcursion = new Excursion() { Id = Guid.NewGuid(), Name = name, ExcursionSights = newSights.ToList() };
-      _excursions.Create(newExcursion);
+      _uow.Excursions.Create(newExcursion);
       return newExcursion.Id;
     }
 
     private void SetSights(string name, IEnumerable<ExcursionSightDto> sights)
     {
-      var excursion = _excursions.FindByName(name);
+      var excursion = _uow.Excursions.FindByName(name);
 
       var oldSights = excursion.ExcursionSights;
-      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSightDto>, IEnumerable<ExcursionSight>>(sights);
+      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSight>>(sights);
 
       foreach (var item in oldSights)
       {
         if (oldSights.SingleOrDefault(s => s.Id == item.Id) == null)
-          _excursionSights.Delete(item.Id);
+          _uow.ExcursionSights.Delete(item.Id);
       }
 
       foreach (var item in newSights)
       {
-        if (_excursionSights.GetEntity(item.Id) == null)
+        if (_uow.ExcursionSights.GetEntity(item.Id) == null)
         {
           item.Id = Guid.NewGuid();
           item.ExcursionId = excursion.Id;
-          _excursionSights.Create(item);
+          _uow.ExcursionSights.Create(item);
         }
       }
     }

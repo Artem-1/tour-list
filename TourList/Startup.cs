@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TourList.Data;
-using TourList.Data.Interfaces;
-using TourList.Data.Repositories;
-using TourList.Service.Interfaces;
-using TourList.Service.Implementation;
+using TourList.Helpers;
 
 namespace TourList
 {
@@ -24,10 +22,14 @@ namespace TourList
     {
       services.AddCors();
       services.AddMvc();
+      services.AddEntityFrameworkSqlServer();
 
-      services.AddScoped<TourListContext>();
-      services.AddScoped<IRepositoryInject, RepositoryInject>();
-      services.AddScoped<IServiceInject, ServiceInject>();
+      string connection = Configuration.GetConnectionString("DefaultConnection");
+      services.AddDbContext<TourListContext>(options => options.UseSqlServer(connection));
+
+      StartupHelper.ConfigureRepositories(services);
+      StartupHelper.ConfigureServices(services);
+      StartupHelper.AdapterConfig();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

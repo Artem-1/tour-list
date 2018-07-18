@@ -4,8 +4,10 @@ using TourList.Dto;
 
 namespace TourList.Service.Interfaces
 {
-  public interface IExcursionService : IService<ExcursionDto>
+  public interface IExcursionService
   {
-    Guid Set(string name, IEnumerable<ExcursionSightDto> sights);
+    IEnumerable<ExcursionDto> GetAll();
+    ExcursionDto Get(Guid excursionId);
+    Guid SetExcursion(string name, IEnumerable<ExcursionSightDto> sights);
   }
 }

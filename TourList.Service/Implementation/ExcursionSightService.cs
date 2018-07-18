@@ -21,13 +21,13 @@ namespace TourList.Service.Implementation
 
     public IEnumerable<ExcursionSightDto> GetAll()
     {
-      return TypeAdapter.Adapt<IEnumerable<ExcursionSight>, IEnumerable<ExcursionSightDto>>(_excursionSights.GetAll());
+      return TypeAdapter.Adapt<IEnumerable<ExcursionSightDto>>(_excursionSights.GetAll());
     }
 
     public ExcursionSightDto Get(Guid id)
     {
       var entity = _excursionSights.GetEntity(id);
-      return TypeAdapter.Adapt<ExcursionSight, ExcursionSightDto>(entity);
+      return TypeAdapter.Adapt<ExcursionSightDto>(entity);
     }
 
     public Guid Create(string name, Guid idExcursion)

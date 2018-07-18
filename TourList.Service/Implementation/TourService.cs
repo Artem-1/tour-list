@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FastMapper.NetCore;
+using System;
+using System.Collections.Generic;
 using TourList.Data.Interfaces;
 using TourList.Dto;
 using TourList.Model;
@@ -6,43 +8,43 @@ using TourList.Service.Interfaces;
 
 namespace TourList.Service.Implementation
 {
-  public class TourService : BaseService<TourDto, Tour>, ITourService
+  public class TourService : ITourService
   {
-    private ITourRepository _tours;
-    private IClientRepository _clients;
-    private IExcursionRepository _excursions;
-    private IExcursionSightRepository _excursionSights;
+    private readonly IRepositoryInject _uow;
 
     public TourService(IRepositoryInject repository)
-      : base(repository.Tours)
     {
-      _tours = repository.Tours;
-      _clients = repository.Clients;
-      _excursions = repository.Excursions;
-      _excursionSights = repository.ExcursionSights;
+      _uow = repository;
+    }
+
+    public IEnumerable<TourDto> GetAll()
+    {
+      var t = _uow.Tours.GetAll();
+      return TypeAdapter.Adapt<IEnumerable<Tour>, IEnumerable<TourDto>>(t);
+    }
+
+    public TourDto Get(Guid excursionId)
+    {
+      var entity = _uow.Tours.GetEntity(excursionId);
+      return TypeAdapter.Adapt<TourDto>(entity);
     }
 
     public void Create(TourDto dto)
     {
-      _tours.Create(new Tour()
-      {
-        Date = dto.Date,
-        ClientId = dto.Client.Id,
-        ExcursionId = dto.Excursion.Id
-      });
+      _uow.Tours.Create(TypeAdapter.Adapt<Tour>(dto));
     }
 
     public void Edit(TourDto dto)
     {
-      var tour = _tours.GetEntity(dto.Id);
+      if (dto == null || dto.Client == null || dto.Excursion == null)
+        throw new Exception("no correct Tour");
 
-      if (tour == null || tour.Client == null || tour.Excursion == null)
-        throw new InvalidOperationException();
+      var tour = _uow.Tours.GetEntity(dto.Id);
 
-      tour.ClientId = dto.Client.Id;
-      tour.ExcursionId = dto.Excursion.Id;
+      if (tour == null)
+        throw new Exception("not find tour");
 
-      _tours.Update(tour);
+      _uow.Tours.Update(TypeAdapter.Adapt<Tour>(dto));
     }
   }
 }

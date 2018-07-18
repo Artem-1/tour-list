@@ -6,18 +6,18 @@ namespace TourList.Data.Repositories
   public class ExcursionSightRepository : BaseRepository<ExcursionSight>, Interfaces.IExcursionSightRepository
   {
     public ExcursionSightRepository(TourListContext dbContext)
-      : base(dbContext, dbContext.ExcursionSights)
+      : base(dbContext)
     {
     }
 
     public void AddRange(IEnumerable<ExcursionSight> entities)
     {
-      _dbSet.AddRange(entities);
+      DbContext.AddRange(entities);
     }
 
     public void RemoveRange(IEnumerable<ExcursionSight> entities)
     {
-      _dbSet.RemoveRange(entities);
+      DbContext.RemoveRange(entities);
     }
   }
 }

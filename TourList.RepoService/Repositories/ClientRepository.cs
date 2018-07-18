@@ -7,13 +7,13 @@ namespace TourList.Data.Repositories
   public class ClientRepository : BaseRepository<Client>, IClientRepository
   {
     public ClientRepository(TourListContext dbContext)
-      : base(dbContext, dbContext.Clients)
+      : base(dbContext)
     {
     }
 
     public Client FindByName(string name)
     {
-      return _dbSet.SingleOrDefault(c => c.Name == name);
+      return DbContext.Set<Client>().SingleOrDefault(c => c.Name == name);
     }
   }
 }

@@ -8,24 +8,27 @@ namespace TourList.Data.Repositories
 {
   public class ExcursionRepository : BaseRepository<Excursion>, Interfaces.IExcursionRepository
   {
+    private DbSet<Excursion> _dbExcursions;
+
     public ExcursionRepository(TourListContext dbContext)
-      : base(dbContext, dbContext.Excursions)
+      : base(dbContext)
     {
+      _dbExcursions = dbContext.Excursions;
     }
 
     public override IEnumerable<Excursion> GetAll()
     {
-      return _dbSet.Include(e => e.ExcursionSights);
+      return _dbExcursions.Include(e => e.ExcursionSights);
     }
 
     public override Excursion GetEntity(Guid id)
     {
-      return _dbSet.Include(e => e.ExcursionSights).FirstOrDefault(e => e.Id == id);
+      return _dbExcursions.Include(e => e.ExcursionSights).FirstOrDefault(e => e.Id == id);
     }
 
     public Excursion FindByName(string name)
     {
-      return _dbSet.SingleOrDefault(e => e.Name == name);
+      return _dbExcursions.SingleOrDefault(e => e.Name == name);
     }
   }
 }

@@ -29,26 +29,26 @@ namespace TourList.TestConsole
 
     static void Main(string[] args)
     {
-      using (var db = new TourListContext())
-      {
-        IRepositoryInject repository = new RepositoryInject(db);
-        IServiceInject service = new ServiceInject(repository);
+      //using (var db = new TourListContext())
+      //{
+      //  IRepositoryInject repository = new RepositoryInject(db);
+      //  IServiceInject service = new ServiceInject(repository);
 
-        CreateTours(service.Tours);
+      //  CreateTours(service.Tours);
 
-        foreach (var tour in service.Tours.GetAll())
-          Console.WriteLine($"{tour.Date}\t {tour.Client.Name}\t {tour.Excursion.Name}");
+      //  foreach (var tour in service.Tours.GetAll())
+      //    Console.WriteLine($"{tour.Date}\t {tour.Client.Name}\t {tour.Excursion.Name}");
 
-        Console.WriteLine(new string('=', 40));
+      //  Console.WriteLine(new string('=', 40));
 
-        foreach (var client in service.Clients.GetAll())
-          Console.WriteLine($"{client.Name}, {client.Id}");
+      //  foreach (var client in service.Clients.GetAll())
+      //    Console.WriteLine($"{client.Name}, {client.Id}");
 
-        Console.WriteLine(new string('=', 40));
+      //  Console.WriteLine(new string('=', 40));
 
-        foreach (var ex in service.Excursions.GetAll())
-          Console.WriteLine($"{ex.Name}, {ex.Id}");
-      }
+      //  foreach (var ex in service.Excursions.GetAll())
+      //    Console.WriteLine($"{ex.Name}, {ex.Id}");
+      //}
     }
   }
 }

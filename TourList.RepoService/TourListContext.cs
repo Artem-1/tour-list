@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TourList.Data.Configurations;
 using TourList.Model;
 
 namespace TourList.Data
@@ -12,41 +13,19 @@ namespace TourList.Data
     public DbSet<SnapshotSight> SnapshotSights { get; set; }
     public DbSet<ExcursionSight> ExcursionSights { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public TourListContext(DbContextOptions<TourListContext> options)
+      : base(options)
     {
-      // drop config inside config file
-      optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=tourlistdb;Trusted_Connection=True;MultipleActiveResultSets=true");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      modelBuilder.Entity<User>().Property(b => b.EmailAddress).IsRequired();
-      modelBuilder.Entity<User>().Property(b => b.FirstName).IsRequired();
-      modelBuilder.Entity<User>().Property(b => b.Password).IsRequired();
-
-      modelBuilder.Entity<Tour>()
-        .Property(u => u.Date)
-        .IsRequired();
-
-      modelBuilder.Entity<Client>()
-        .Property(u => u.Name)
-        .HasMaxLength(100)
-        .IsRequired();
-
-      modelBuilder.Entity<Excursion>()
-        .Property(u => u.Name)
-        .HasMaxLength(100)
-        .IsRequired();
-
-      modelBuilder.Entity<ExcursionSight>()
-        .Property(u => u.Name)
-        .HasMaxLength(100)
-        .IsRequired();
-
-      modelBuilder.Entity<SnapshotSight>()
-        .Property(u => u.Name)
-        .HasMaxLength(100)
-        .IsRequired();
+      modelBuilder.ApplyConfiguration(new ClientConfiguration());
+      modelBuilder.ApplyConfiguration(new ExcursionConfiguration());
+      modelBuilder.ApplyConfiguration(new TourConfiguration());
+      modelBuilder.ApplyConfiguration(new ExcursionSightConfiguration());
+      modelBuilder.ApplyConfiguration(new SnapshotSightConfiguration());
+      modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
   }
 }

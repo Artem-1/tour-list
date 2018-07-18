@@ -6,7 +6,7 @@ namespace TourList.Data.Repositories
   public class SnapshotSightRepository : BaseRepository<SnapshotSight>, ISnapshotSightRepository
   {
     public SnapshotSightRepository(TourListContext context)
-      : base(context, context.SnapshotSights)
+      : base(context)
     {
     }
   }

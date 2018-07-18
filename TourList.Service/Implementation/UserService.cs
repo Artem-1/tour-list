@@ -5,10 +5,9 @@ using TourList.Service.Interfaces;
 
 namespace TourList.Service.Implementation
 {
-  public class UserService : BaseService<UserDto, User>, IUserService
+  public class UserService : IUserService
   {
     public UserService(IRepositoryInject repository)
-      : base(repository.Users)
     {
     }
   }

@@ -9,19 +9,22 @@ namespace TourList.Data.Repositories
 {
   public class TourRepository : BaseRepository<Tour>, ITourRepository
   {
+    private DbSet<Tour> _dbTours;
+
     public TourRepository(TourListContext dbContext)
-      : base(dbContext, dbContext.Tours)
+      : base(dbContext)
     {
+      _dbTours = DbContext.Tours;
     }
 
     public override IEnumerable<Tour> GetAll()
     {
-      return _dbSet.Include(t => t.Client).Include(t => t.Excursion);
+      return _dbTours.Include(t => t.Client).Include(t => t.Excursion).ToList();
     }
 
     public override Tour GetEntity(Guid id)
     {
-      return _dbSet.Include(t => t.Client).Include(t => t.Excursion).SingleOrDefault(t => t.Id == id);
+      return _dbTours.Include(t => t.Client).Include(t => t.Excursion).SingleOrDefault(t => t.Id == id);
     }
   }
 }

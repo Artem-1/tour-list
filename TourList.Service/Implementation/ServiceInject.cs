@@ -1,40 +1,26 @@
-﻿using TourList.Data.Interfaces;
-using TourList.Service.Interfaces;
+﻿using TourList.Service.Interfaces;
 
 namespace TourList.Service.Implementation
 {
   public class ServiceInject : IServiceInject
   {
-    private IRepositoryInject _repository;
+    public ITourService Tours { get; }
+    public IClientService Clients { get; }
+    public IExcursionService Excursions { get; }
+    public IExcursionSightService ExcursionSights { get; }
+    public IUserService Users { get; }
 
-    private readonly ITourService _tours;
-    private readonly IClientService _clients;
-    private readonly IExcursionService _excursions;
-    private readonly IExcursionSightService _excursionSights;
-    private readonly ISnapshotSightService _snapshotSights;
-    private readonly IUserService _users;
-
-    public ITourService Tours =>
-      (_tours == null) ? new TourService(_repository) : _tours;
-
-    public IClientService Clients =>
-      (_clients == null) ? new ClientService(_repository) : _clients;
-
-    public IExcursionService Excursions =>
-      (_excursions == null) ? new ExcursionService(_repository) : _excursions;
-
-    public IExcursionSightService ExcursionSights =>
-      (_excursionSights == null) ? new ExcursionSightService(_repository) : _excursionSights;
-
-    public ISnapshotSightService SnapshotSights =>
-      (_snapshotSights == null) ? new SnapshotSightService(_repository) : _snapshotSights;
-
-    public IUserService Users =>
-      (_excursionSights == null) ? new UserService(_repository) : _users;
-
-    public ServiceInject(IRepositoryInject repository)
+    public ServiceInject(ITourService tours,
+                         IClientService clients,
+                         IExcursionService excursions,
+                         IExcursionSightService excursionSights,
+                         IUserService users)
     {
-      _repository = repository;
+      Tours = tours;
+      Clients = clients;
+      Excursions = excursions;
+      ExcursionSights = excursionSights;
+      Users = users;
     }
   }
 }

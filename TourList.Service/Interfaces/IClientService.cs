@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using TourList.Dto;
 
 namespace TourList.Service.Interfaces
 {
-  public interface IClientService : IService<ClientDto>
+  public interface IClientService
   {
-    Guid Set(string name);
+    IEnumerable<ClientDto> GetAll();
+    ClientDto Get(Guid clientId);
+    Guid SetClient(string name);
   }
 }

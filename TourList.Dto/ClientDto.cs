@@ -7,6 +7,5 @@ namespace TourList.Dto
   {
     public Guid Id { get; set; }
     public string Name { get; set; }
-    public ICollection<TourDto> Tours { get; set; }
   }
 }

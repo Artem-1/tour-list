@@ -9,6 +9,6 @@ namespace TourList.Dto
     public DateTime Date { get; set; }
     public ClientDto Client { get; set; }
     public ExcursionDto Excursion { get; set; }
-    public ICollection<SnapshotSightDto> SnapshotSights { get; set; }
+    public IEnumerable<SnapshotSightDto> SnapshotSights { get; set; }
   }
 }

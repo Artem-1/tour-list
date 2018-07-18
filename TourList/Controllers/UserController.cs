@@ -6,10 +6,9 @@ namespace TourList.Controllers
 {
   [Produces("application/json")]
   [Route("api/User")]
-  public class UserController : BaseTourListController<IUserService, UserDto>
+  public class UserController : Controller
   {
     public UserController(IServiceInject service)
-      : base(service.Users)
     {
     }
   }

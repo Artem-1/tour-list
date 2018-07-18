@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using TourList.Dto;
 
 namespace TourList.Service.Interfaces
 {
-  public interface IExcursionSightService : IService<ExcursionSightDto>
+  public interface IExcursionSightService
   {
-    Guid Create(string name, Guid idExcursion);
+    IEnumerable<ExcursionSightDto> GetAll();
+    ExcursionSightDto Get(Guid sightId);
+    Guid Create(string name, Guid excursionId);
   }
 }

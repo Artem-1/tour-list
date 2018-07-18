@@ -8,7 +8,7 @@ namespace TourList.Model
     public Guid Id { get; set; }
     public string Name { get; set; }
 
-    public ICollection<Tour> Tours { get; set; }
+    public IEnumerable<Tour> Tours { get; set; }
     
     public Client()
     {

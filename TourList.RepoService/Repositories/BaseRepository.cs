@@ -1,52 +1,43 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace TourList.Data
 {
   public abstract class BaseRepository<TEntity> : Interfaces.IRepository<TEntity>
-    where TEntity: class
+    where TEntity : class
   {
-    protected TourListContext _dbContext;
-    protected DbSet<TEntity> _dbSet;
-    
-    public BaseRepository(TourListContext context, DbSet<TEntity> dbSet)
+    public TourListContext DbContext { get; }
+
+    public BaseRepository(TourListContext context)
     {
-      _dbContext = context;
-      _dbSet = dbSet;
+      DbContext = context;
     }
 
     public virtual IEnumerable<TEntity> GetAll()
     {
-      return _dbSet;
+      return DbContext.Set<TEntity>();
     }
 
     public virtual TEntity GetEntity(Guid id)
     {
-      return _dbSet.Find(id);
-    }
-
-    public IEnumerable<TEntity> Find(Func<TEntity, Boolean> predicate)
-    {
-      return _dbSet.Where(predicate).ToList();
+      return DbContext.Find<TEntity>(id);
     }
 
     public void Create(TEntity entity)
     {
-      _dbSet.Add(entity);
+      DbContext.Add(entity);
     }
 
     public void Update(TEntity entity)
     {
-      _dbContext.Entry(entity).State = EntityState.Modified;
+      DbContext.Update(entity);
     }
 
     public void Delete(Guid id)
     {
-      TEntity entity = _dbSet.Find(id);
+      TEntity entity = GetEntity(id);
       if (entity != null)
-        _dbSet.Remove(entity);
+        DbContext.Remove(entity);
     }
   }
 }

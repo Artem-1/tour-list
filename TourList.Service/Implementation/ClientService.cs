@@ -10,33 +10,38 @@ namespace TourList.Service.Implementation
 {
   public class ClientService : IClientService
   {
-    private readonly IClientRepository _clients;
+    private readonly IRepositoryInject _uow;
 
     public ClientService(IRepositoryInject repository)
     {
-      _clients = repository.Clients;
+      _uow = repository;
     }
 
     public IEnumerable<ClientDto> GetAll()
     {
-      return TypeAdapter.Adapt<IEnumerable<Client>, IEnumerable<ClientDto>>(_clients.GetAll());
+      return TypeAdapter.Adapt<IEnumerable<ClientDto>>(_uow.Clients.GetAll());
     }
 
-    public ClientDto Get(Guid id)
+    public ClientDto Get(Guid clientId)
     {
-      var entity = _clients.GetEntity(id);
-      return TypeAdapter.Adapt<Client, ClientDto>(entity);
+      var entity = _uow.Clients.GetEntity(clientId);
+      return TypeAdapter.Adapt<ClientDto>(entity);
     }
 
-    public Guid Set(string name)
+    public Guid SetClient(string name)
     {
-      var client = _clients.FindByName(name);
+      var client = _uow.Clients.FindByName(name);
 
       if (client != null)
         return client.Id;
 
+      return Create(name);
+    }
+
+    private Guid Create(string name)
+    {
       var newClient = new Client() { Id = Guid.NewGuid(), Name = name };
-      _clients.Create(newClient);
+      _uow.Clients.Create(newClient);
 
       return newClient.Id;
     }

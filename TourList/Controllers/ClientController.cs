@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using TourList.Dto;
 using TourList.Service.Interfaces;
 
@@ -6,18 +8,34 @@ namespace TourList.Controllers
 {
   [Produces("application/json")]
   [Route("api/Client")]
-  public class ClientController : BaseTourListController<IClientService, ClientDto>
+  public class ClientController : Controller
   {
-    public ClientController(IServiceInject service)
-      : base(service.Clients)
+    private IServiceInject _services;
+
+    public ClientController(IServiceInject services)
     {
+      _services = services;
     }
 
-    // POST: api/[controller]
-    [HttpPost]
-    public void Post([FromBody]string item)
+    // GET: api/Client
+    [HttpGet]
+    public IEnumerable<ClientDto> Get()
     {
-      _service.Set(item);
+      return _services.Clients.GetAll();
+    }
+
+    // GET: api/Client/5
+    [HttpGet("{id}")]
+    public ClientDto Get(Guid id)
+    {
+      return _services.Clients.Get(id);
+    }
+
+    // POST: api/Client
+    [HttpPost]
+    public void Post([FromBody]string name)
+    {
+      _services.Clients.SetClient(name);
     }
   }
 }
