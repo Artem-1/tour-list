@@ -19,7 +19,7 @@ namespace TourList.Service.Implementation
 
     public IEnumerable<ClientDto> GetAll()
     {
-      return TypeAdapter.Adapt<IEnumerable<ClientDto>>(_uow.Clients.GetAll());
+      return TypeAdapter.Adapt<IEnumerable<Client>, IEnumerable<ClientDto>>(_uow.Clients.GetAll());
     }
 
     public ClientDto Get(Guid clientId)

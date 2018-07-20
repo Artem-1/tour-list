@@ -20,7 +20,7 @@ namespace TourList.Service.Implementation
 
     public IEnumerable<ExcursionDto> GetAll()
     {
-      return TypeAdapter.Adapt<IEnumerable<ExcursionDto>>(_uow.Excursions.GetAll());
+      return TypeAdapter.Adapt<IEnumerable<Excursion>, IEnumerable<ExcursionDto>>(_uow.Excursions.GetAll());
     }
 
     public ExcursionDto Get(Guid excursionId)

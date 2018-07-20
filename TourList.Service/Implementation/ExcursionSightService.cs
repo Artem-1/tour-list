@@ -21,7 +21,7 @@ namespace TourList.Service.Implementation
 
     public IEnumerable<ExcursionSightDto> GetAll()
     {
-      return TypeAdapter.Adapt<IEnumerable<ExcursionSightDto>>(_excursionSights.GetAll());
+      return TypeAdapter.Adapt<IEnumerable<ExcursionSight>, IEnumerable<ExcursionSightDto>>(_excursionSights.GetAll());
     }
 
     public ExcursionSightDto Get(Guid id)
@@ -40,7 +40,7 @@ namespace TourList.Service.Implementation
       };
 
       _excursionSights.Create(newSight);
-      
+
       return newSight.Id;
     }
 

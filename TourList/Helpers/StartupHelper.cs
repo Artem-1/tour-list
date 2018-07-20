@@ -37,8 +37,10 @@ namespace TourList.Helpers
     public static void AdapterConfig()
     {
       TypeAdapterConfig<Tour, TourDto>.NewConfig().MaxDepth(1);
-      TypeAdapterConfig<Excursion, ExcursionDto>.NewConfig().MaxDepth(1);
       TypeAdapterConfig<IEnumerable<Tour>, IEnumerable<TourDto>>.NewConfig().MaxDepth(1);
+
+      TypeAdapterConfig<Excursion, ExcursionDto>.NewConfig().MaxDepth(1);
+      TypeAdapterConfig<IEnumerable<Excursion>, IEnumerable<ExcursionDto>>.NewConfig().MaxDepth(1);
     }
   }
 }
