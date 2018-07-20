@@ -16,6 +16,7 @@ import {
   MatDatepickerModule, 
   MatNativeDateModule   
 } from '@angular/material';
+import { AutocampleteWithFilterComponent } from './Component/tour-form/autocamplete-with-filter/autocamplete-with-filter.component';
 //import {MatMomentDateModule } from '@angular/material/material';
 //import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
@@ -24,7 +25,8 @@ import {
     AppComponent,
     UserComponent,
     TourFormComponent,
-    TourListComponent    
+    TourListComponent,
+    AutocampleteWithFilterComponent    
   ],
   imports: [
     BrowserModule,

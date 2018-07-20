@@ -4,23 +4,26 @@
   <div>
     <p>Date:</p>
     <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="tour.date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </div>
 
-  <div>
-    <p>Excursion</p>
-    <mat-form-field>
-      <input type="text" placeholder="put excursion" matInput [formControl]="myControl" [matAutocomplete]="auto">
-    </mat-form-field>
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{ option.name }}</mat-option>
-    </mat-autocomplete>
-  </div>
+  <app-autocamplete-with-filter (valueChange)="onChangeExcursion($event)" 
+    [selectedValue]="tour.excursion"
+    [nameLable]="nameLabelExcursion"
+    [options]="excursions">
+  </app-autocamplete-with-filter>
+  <p>{{tour.excursion.name}}</p>
+  
+  <app-autocamplete-with-filter (valueChange)="onChangeClient($event)" 
+    [selectedValue]="tour.client"
+    [nameLable]="nameLabelClient"
+    [options]="clients">
+  </app-autocamplete-with-filter>
 
   <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button [mat-dialog-close]="res" cdkFocusInitial (click)="save()">Ok</button>
   </div>

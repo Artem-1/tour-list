@@ -6,53 +6,47 @@ import { Tour } from '../../Model/tour';
 import { Excursion } from '../../Model/excursion';
 import { Client } from '../../Model/client';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormControl } from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 
 export interface DialogData {
   tour: Tour;
+  mode: boolean;
 }
 
 @Component({
   selector: 'app-tour-form',
   templateUrl: './tour-form.component.html',
-  styleUrls: ['./tour-form.component.css']
+  styleUrls: ['./tour-form.component.css'],
+  providers: [TourService]
 })
 export class TourFormComponent implements OnInit {
 
   tour: Tour;
+  formMode: boolean = false;
+  nameLabelExcursion: string = "Excursion:";
+  nameLabelClient: string = "Client:";
   excursions: Excursion[];
   clients: Client[];
 
-  myControl = new FormControl();
-  filteredOptions: Observable<Excursion[]>;
-
   constructor(
+    private tourService: TourService,
     private excursionService: ExcursionService,
     private clientService: ClientService,
     public dialogRef: MatDialogRef<TourFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
-  ngOnInit(){    
+  ngOnInit(){
+    this.tour = this.data.tour;
+    this.formMode = this.data.mode;
     this.getAllExcursions();
     this.getAllClients();
-    
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith<string | Excursion>(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.excursions)
-      );
   }
 
-  displayFn(excursion?: Excursion): string | undefined {
-    return excursion ? excursion.name : undefined;
+  onChangeExcursion($event){
+    this.tour.excursion = $event;
   }
 
-  private _filter(name: string) : Excursion[] {
-    const filterValue = name.toLowerCase();
-    return this.excursions.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+  onChangeClient($event){
+    this.tour.client = $event;
   }
 
   getAllExcursions(){
@@ -61,9 +55,18 @@ export class TourFormComponent implements OnInit {
 
   getAllClients(){
     this.clientService.getAllClients().subscribe(data => this.clients = data);
+    this.clientService.createClient("gu");
   }
 
-  onNoClick(): void {
+  save()
+  {
+    if(this.formMode === true)
+      this.tourService.createTour(this.tour);
+    else
+      this.tourService.updateTour(this.tour);
+  }
+
+  cancel() {
     this.dialogRef.close();
   }
 }

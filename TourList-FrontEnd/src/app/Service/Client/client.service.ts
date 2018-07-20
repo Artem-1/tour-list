@@ -15,4 +15,8 @@ export class ClientService {
   getAllClients() {
     return this.http.get<Client[]>(this.baseUrl);
   }
+
+  createClient(name: string) {
+    return this.http.post<string>(this.baseUrl, name);
+  }
 }

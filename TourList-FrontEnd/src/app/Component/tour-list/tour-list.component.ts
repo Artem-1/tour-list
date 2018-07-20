@@ -12,10 +12,6 @@ import { TourFormComponent } from '../tour-form/tour-form.component';
 export class TourListComponent implements OnInit {
 
   tours: Tour[];
-  str: string = "test form";
-
-
-
   displayedColumns: string[] = ["date", "excursion", "client"];
 
   constructor(private tourService: TourService, public dialog: MatDialog) { }
@@ -29,29 +25,28 @@ export class TourListComponent implements OnInit {
     this.tourService.getAllTours().subscribe(tours => this.tours = tours);
   }
 
-  createTour(){
-    this.openDialog();
-  }
-
-  openDialog(): void {
+  openDialog(item: Tour, mode: boolean): void {
     const dialogRef = this.dialog.open(TourFormComponent, {
       height: '500px',
       width: '600px',
-      data: { tour: new Tour }
+      data: {
+        tour: item,
+        mode: mode
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.str = result;
+      this.getTours();
     });
   }
 
   onCreate()
   {
-    this.openDialog();
+    this.openDialog({id: "", date: null, excursion: null, client: null, excursionSights: []}, true);
   }
 
   onEdit(item: Tour): void {
-    this.openDialog();
+    this.openDialog(item, false);
   }
 }
