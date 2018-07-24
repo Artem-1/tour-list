@@ -1,24 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { UserComponent } from './Component/User/user.component';
 import { TourListComponent } from './Component/tour-list/tour-list.component';
 import { TourFormComponent } from './Component/tour-form/tour-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  MatButtonModule, 
-  MatAutocompleteModule, 
-  MatTableModule, 
-  MatDialogModule, 
-  MatInputModule, 
-  MatDatepickerModule, 
-  MatNativeDateModule   
-} from '@angular/material';
 import { AutocampleteWithFilterComponent } from './Component/tour-form/autocamplete-with-filter/autocamplete-with-filter.component';
-//import {MatMomentDateModule } from '@angular/material/material';
-//import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import {
+  MatButtonModule,
+  MatAutocompleteModule,
+  MatTableModule,
+  MatDialogModule,
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatSnackBar,
+  MatSnackBarModule
+} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -33,13 +33,17 @@ import { AutocampleteWithFilterComponent } from './Component/tour-form/autocampl
     FormsModule, ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatButtonModule, MatAutocompleteModule, MatTableModule, MatDialogModule,
-    MatInputModule, MatDatepickerModule, MatNativeDateModule, //MatMomentDateModule
+    MatButtonModule,
+    MatAutocompleteModule,
+    MatTableModule,
+    MatDialogModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSnackBarModule
   ],
   entryComponents: [TourFormComponent, TourListComponent],
-  providers: [
-    //{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

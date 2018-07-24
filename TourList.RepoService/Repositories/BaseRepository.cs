@@ -28,7 +28,7 @@ namespace TourList.Data
       DbContext.Add(entity);
     }
 
-    public void Update(TEntity entity)
+    public virtual void Update(TEntity entity)
     {
       DbContext.Update(entity);
     }

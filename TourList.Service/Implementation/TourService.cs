@@ -31,7 +31,16 @@ namespace TourList.Service.Implementation
 
     public void Create(TourDto dto)
     {
-      _uow.Tours.Create(TypeAdapter.Adapt<Tour>(dto));
+      var newTour = TypeAdapter.Adapt<Tour>(dto);
+
+      if (_uow.Excursions.FindByName(newTour.Excursion.Name) != null)
+        newTour.Excursion = null;
+
+      if (_uow.Clients.FindByName(newTour.Client.Name) != null)
+        newTour.Client = null;
+
+      _uow.Tours.Create(newTour);
+      _uow.Save();
     }
 
     public void Edit(TourDto dto)
@@ -45,6 +54,7 @@ namespace TourList.Service.Implementation
         throw new Exception("not find tour");
 
       _uow.Tours.Update(TypeAdapter.Adapt<Tour>(dto));
+      _uow.Save();
     }
   }
 }

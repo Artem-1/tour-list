@@ -35,22 +35,24 @@ namespace TourList.Service.Implementation
 
       if (excursion == null)
       {
-        if (sights.Count() < 1)
-          throw new Exception();
+        //if (sights.Count() < 1)
+        //  throw new Exception();
 
         return Create(name, sights);
       }
 
-      SetSights(name, sights);
+      //SetSights(name, sights);
 
       return excursion.Id;
     }
 
     private Guid Create(string name, IEnumerable<ExcursionSightDto> sights)
     {
-      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSight>>(sights);
+      var newSights = new List<ExcursionSight>(); // TypeAdapter.Adapt<IEnumerable<ExcursionSight>>(sights);
       var newExcursion = new Excursion() { Id = Guid.NewGuid(), Name = name, ExcursionSights = newSights.ToList() };
       _uow.Excursions.Create(newExcursion);
+      _uow.Save();
+
       return newExcursion.Id;
     }
 

@@ -26,5 +26,15 @@ namespace TourList.Data.Repositories
     {
       return _dbTours.Include(t => t.Client).Include(t => t.Excursion).SingleOrDefault(t => t.Id == id);
     }
+
+    public override void Update(Tour tour)
+    {
+      var dbTour = GetEntity(tour.Id);
+
+      DbContext.Entry(dbTour).CurrentValues.SetValues(tour);
+      
+      DbContext.EditSub(dbTour.Client, dbTour.ClientId, tour.Client, tour.ClientId);
+      DbContext.EditSub(dbTour.Excursion, dbTour.ExcursionId, tour.Excursion, tour.ExcursionId);
+    }
   }
 }

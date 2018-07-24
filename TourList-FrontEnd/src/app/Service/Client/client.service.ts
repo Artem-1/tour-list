@@ -8,7 +8,7 @@ import { Client } from '../../Model/client';
 })
 export class ClientService {
 
-  baseUrl = UrlToApi + 'api/Client';
+  baseUrl = UrlToApi + 'api/client/';
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,11 @@ export class ClientService {
     return this.http.get<Client[]>(this.baseUrl);
   }
 
-  createClient(name: string) {
-    return this.http.post<string>(this.baseUrl, name);
+  getClientById(id: string) {
+    return this.http.get<Client>(this.baseUrl + id)
+  }
+
+  createClient(client: Client) {
+    return this.http.post<Client>(this.baseUrl, client);
   }
 }

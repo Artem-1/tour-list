@@ -1,4 +1,4 @@
 export class ExcursionSight {
-    id: string;
+    id?: string;
     name: string;
 }

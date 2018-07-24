@@ -12,9 +12,8 @@ import { IOption } from './IOption';
 export class AutocampleteWithFilterComponent implements OnInit {
 
   myControl = new FormControl();
-  @Output() valueChange = new EventEmitter<IOption>();
+  @Output() valueChange = new EventEmitter<string>();
   @Input() selectedValue: IOption;
-  @Input() nameLable: string;
   @Input() options: IOption[];
   filteredOptions: Observable<IOption[]>;
 
@@ -30,7 +29,7 @@ export class AutocampleteWithFilterComponent implements OnInit {
       );
   }
   
-  changed(model: IOption){
+  changed(model: string){
       this.valueChange.emit(model);
   }
 

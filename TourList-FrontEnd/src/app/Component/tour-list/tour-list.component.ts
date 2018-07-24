@@ -25,14 +25,11 @@ export class TourListComponent implements OnInit {
     this.tourService.getAllTours().subscribe(tours => this.tours = tours);
   }
 
-  openDialog(item: Tour, mode: boolean): void {
+  openDialog(item: Tour): void {
     const dialogRef = this.dialog.open(TourFormComponent, {
       height: '500px',
-      width: '600px',
-      data: {
-        tour: item,
-        mode: mode
-      }
+      width: '300px',
+      data: item
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -43,10 +40,10 @@ export class TourListComponent implements OnInit {
 
   onCreate()
   {
-    this.openDialog({id: "", date: null, excursion: null, client: null, excursionSights: []}, true);
+    this.openDialog(null);
   }
 
   onEdit(item: Tour): void {
-    this.openDialog(item, false);
+    this.openDialog(item);
   }
 }

@@ -7,14 +7,14 @@ using TourList.Service.Interfaces;
 namespace TourList.Controllers
 {
   [Produces("application/json")]
-  [Route("api/Tour")]
+  [Route("api/tour")]
   public class TourController : Controller
   {
     private IServiceInject _services;
 
-    public TourController(IServiceInject serivces)
+    public TourController(IServiceInject services)
     {
-      _services = serivces;
+      _services = services;
     }
 
     // GET: api/tour
@@ -34,7 +34,7 @@ namespace TourList.Controllers
     // POST: api/tour
     [HttpPost]
     public void Post([FromBody]TourDto item)
-    {
+    {            
       _services.Tours.Create(item);
     }
 
@@ -42,6 +42,18 @@ namespace TourList.Controllers
     [HttpPut]
     public void Put([FromBody]TourDto item)
     {
+      if (item.Excursion != null && item.Excursion.Id == Guid.Empty)
+      {
+        var ex = _services.Excursions.SetExcursion(item.Excursion.Name, item.Excursion.ExcursionSights);
+        item.Excursion = _services.Excursions.Get(ex);
+      }
+
+      if (item.Client != null && item.Client.Id == Guid.Empty)
+      {
+        var cl = _services.Clients.SetClient(item.Client.Name);
+        item.Client = _services.Clients.Get(cl);
+      }
+
       _services.Tours.Edit(item);
     }
   }

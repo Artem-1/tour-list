@@ -3,7 +3,7 @@ import { Excursion } from './excursion';
 import { ExcursionSight } from './excursion-sight';
 
 export class Tour {
-    id: string;
+    id?: string;
     date: Date;
     client: Client;
     excursion: Excursion;

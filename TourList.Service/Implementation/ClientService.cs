@@ -42,6 +42,7 @@ namespace TourList.Service.Implementation
     {
       var newClient = new Client() { Id = Guid.NewGuid(), Name = name };
       _uow.Clients.Create(newClient);
+      _uow.Save();
 
       return newClient.Id;
     }

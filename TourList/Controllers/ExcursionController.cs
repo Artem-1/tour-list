@@ -7,7 +7,7 @@ using TourList.Service.Interfaces;
 namespace TourList.Controllers
 {
   [Produces("application/json")]
-  [Route("api/Excursion")]
+  [Route("api/excursion")]
   public class ExcursionController : Controller
   {
     private IServiceInject _services;
@@ -33,9 +33,9 @@ namespace TourList.Controllers
 
     // POST: api/Excursion
     [HttpPost]
-    public void Post([FromBody]ExcursionDto excursion)
+    public Guid Post([FromBody]ExcursionDto excursion)
     {
-      _services.Excursions.SetExcursion(excursion.Name, excursion.ExcursionSights);
+      return _services.Excursions.SetExcursion(excursion.Name, excursion.ExcursionSights);
     }
   }
 }
