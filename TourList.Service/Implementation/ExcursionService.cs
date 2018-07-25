@@ -41,7 +41,7 @@ namespace TourList.Service.Implementation
         return Create(name, sights);
       }
 
-      //SetSights(name, sights);
+      SetSights(name, sights);
 
       return excursion.Id;
     }
@@ -56,7 +56,7 @@ namespace TourList.Service.Implementation
       return newExcursion.Id;
     }
 
-    private void SetSights(string name, IEnumerable<ExcursionSightDto> sights)
+    public void SetSights(string name, IEnumerable<ExcursionSightDto> sights)
     {
       var excursion = _uow.Excursions.FindByName(name);
 
@@ -64,21 +64,38 @@ namespace TourList.Service.Implementation
       var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSight>>(sights);
 
       foreach (var item in oldSights)
-      {
-        if (oldSights.SingleOrDefault(s => s.Id == item.Id) == null)
           _uow.ExcursionSights.Delete(item.Id);
-      }
 
       foreach (var item in newSights)
       {
-        if (_uow.ExcursionSights.GetEntity(item.Id) == null)
-        {
           item.Id = Guid.NewGuid();
           item.ExcursionId = excursion.Id;
           _uow.ExcursionSights.Create(item);
-        }
       }
+
+      _uow.Save();
     }
 
+    public class GenericCompare<T> : IEqualityComparer<T> where T : class
+    {
+      private Func<T, object> _expr { get; set; }
+      public GenericCompare(Func<T, object> expr)
+      {
+        this._expr = expr;
+      }
+      public bool Equals(T x, T y)
+      {
+        var first = _expr.Invoke(x);
+        var sec = _expr.Invoke(y);
+        if (first != null && first.Equals(sec))
+          return true;
+        else
+          return false;
+      }
+      public int GetHashCode(T obj)
+      {
+        return obj.GetHashCode();
+      }
+    }
   }
 }

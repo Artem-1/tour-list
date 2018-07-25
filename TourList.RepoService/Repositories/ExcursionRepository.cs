@@ -23,12 +23,12 @@ namespace TourList.Data.Repositories
 
     public override Excursion GetEntity(Guid id)
     {
-      return _dbExcursions.Include(e => e.ExcursionSights).FirstOrDefault(e => e.Id == id);
+      return _dbExcursions.Include(e => e.ExcursionSights).SingleOrDefault(e => e.Id == id);
     }
 
     public Excursion FindByName(string name)
     {
-      return _dbExcursions.SingleOrDefault(e => e.Name == name);
+      return _dbExcursions.Include(e => e.ExcursionSights).SingleOrDefault(e => e.Name == name);
     }
   }
 }

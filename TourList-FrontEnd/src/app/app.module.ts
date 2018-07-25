@@ -8,6 +8,7 @@ import { TourListComponent } from './Component/tour-list/tour-list.component';
 import { TourFormComponent } from './Component/tour-form/tour-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AutocampleteWithFilterComponent } from './Component/tour-form/autocamplete-with-filter/autocamplete-with-filter.component';
+
 import {
   MatButtonModule,
   MatAutocompleteModule,
@@ -16,8 +17,8 @@ import {
   MatInputModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSnackBar,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatListModule
 } from '@angular/material';
 
 @NgModule({
@@ -40,7 +41,8 @@ import {
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
   ],
   entryComponents: [TourFormComponent, TourListComponent],
   providers: [],

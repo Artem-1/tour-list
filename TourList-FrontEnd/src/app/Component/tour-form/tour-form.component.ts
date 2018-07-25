@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TourService } from '../../Service/Tour/tour.service';
 import { ExcursionService } from '../../Service/Excursion/excursion.service';
+import { ExcursionSightService } from '../../Service/ExcursionSight/excursion-sight.service';
 import { ClientService } from '../../Service/Client/client.service';
 import { Tour } from '../../Model/tour';
 import { Excursion } from '../../Model/excursion';
+import { ExcursionSight } from '../../Model/excursion-sight';
 import { Client } from '../../Model/client';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
@@ -17,20 +19,21 @@ export class TourFormComponent implements OnInit {
 
   tour: Tour;
   formMode: boolean = false;
-  nameLabelExcursion: string = "Excursion";
-  nameLabelClient: string = "Client";
   excursions: Excursion[];
   clients: Client[];
+  excursionSights: ExcursionSight[];
+  inputedSight: string;
 
   constructor(
     private tourService: TourService,
     private excursionService: ExcursionService,
+    private excursionSightService: ExcursionSightService,
     private clientService: ClientService,
     public dialogRef: MatDialogRef<TourFormComponent>,
     public snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: Tour) {}
 
-  ngOnInit(){
+  ngOnInit() {
     if(this.data != null) {
       this.tour = this.data;
       this.formMode = false;
@@ -41,11 +44,24 @@ export class TourFormComponent implements OnInit {
     }
     this.getAllExcursions();
     this.getAllClients();
+    this.getAllExcursionSights();
+  }
+  
+  onPushSight() {
+    this.tour.excursion.excursionSights.push( { name: this.inputedSight } );
+    //this.inputedSight = "";
+  }
+
+  onChangeSight($event) {
+    if(typeof $event === 'string')
+      this.inputedSight = $event;
+    else
+      this.inputedSight = $event.name;
   }
 
   onChangeExcursion($event) {
     if(typeof $event === 'string') {
-      this.tour.excursion = { name: $event, excursionSights: null };
+      this.tour.excursion = { name: $event, excursionSights: [] };
     }
     else {
       this.tour.excursion = $event;
@@ -61,16 +77,24 @@ export class TourFormComponent implements OnInit {
     }
   }
 
-  getAllExcursions(){
+  getAllExcursions() {
     this.excursionService.getAllExcursions().subscribe(data => this.excursions = data);
   }
 
-  getAllClients(){
+  getAllClients() {
     this.clientService.getAllClients().subscribe(data => this.clients = data);
   }
 
-  save()
-  {
+  getAllExcursionSights() {
+    this.excursionSightService.getAllSights().subscribe(data => this.excursionSights = data);
+  }
+
+  removeSight(sight: ExcursionSight) {
+    let index = this.tour.excursion.excursionSights.indexOf(sight);
+        this.tour.excursion.excursionSights.splice(index, 1);
+  }
+
+  save() {
     var message: string;
     if(this.formMode == true) {
         this.tourService.createTour(this.tour).subscribe();

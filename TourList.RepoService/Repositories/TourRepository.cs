@@ -19,7 +19,12 @@ namespace TourList.Data.Repositories
 
     public override IEnumerable<Tour> GetAll()
     {
-      return _dbTours.Include(t => t.Client).Include(t => t.Excursion).ToList();
+      return _dbTours
+        .Include(t => t.Client)
+        .Include(t => t.Excursion)
+        .ThenInclude(es => es.ExcursionSights)
+        .Include(t => t.SnapshotSights)
+        .ToList();
     }
 
     public override Tour GetEntity(Guid id)

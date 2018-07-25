@@ -24,8 +24,25 @@
     [options]="clients">
   </app-autocamplete-with-filter>
 
+  <label>List sights:</label>
+  <mat-list>
+    <mat-list-item *ngFor="let sight of tour.excursion.excursionSights">
+      <p matLine class="sight-item">
+        <span> {{sight.name}} </span>
+        <button mat-button (click)="removeSight(sight)">remove</button>
+      </p>
+    </mat-list-item>
+  </mat-list>
+
+  <label>Excursion sight:</label>
+  <app-autocamplete-with-filter (valueChange)="onChangeSight($event)"
+  [selectedValue]="inputedSight"
+  [options]="excursionSights">
+  </app-autocamplete-with-filter>
+  <button mat-button (click)="onPushSight()">push</button>
+
   <div mat-dialog-actions>
     <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-button [mat-dialog-close]="res" cdkFocusInitial (click)="save()">Save</button>
+    <button mat-button [mat-dialog-close] cdkFocusInitial (click)="save()">Save</button>
   </div>
 </div>

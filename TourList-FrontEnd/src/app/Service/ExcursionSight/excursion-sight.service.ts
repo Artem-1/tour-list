@@ -8,7 +8,7 @@ import { ExcursionSight } from '../../Model/excursion-sight';
 })
 export class ExcursionSightService {
 
-  baseUrl = UrlToApi + 'api/ExcursionSight';
+  baseUrl = UrlToApi + 'api/ExcursionSight/';
 
   constructor(private http: HttpClient) { }
 

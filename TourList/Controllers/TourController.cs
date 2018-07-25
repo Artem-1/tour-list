@@ -42,7 +42,7 @@ namespace TourList.Controllers
     [HttpPut]
     public void Put([FromBody]TourDto item)
     {
-      if (item.Excursion != null && item.Excursion.Id == Guid.Empty)
+      if (item.Excursion != null)
       {
         var ex = _services.Excursions.SetExcursion(item.Excursion.Name, item.Excursion.ExcursionSights);
         item.Excursion = _services.Excursions.Get(ex);
