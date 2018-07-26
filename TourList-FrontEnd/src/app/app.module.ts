@@ -17,9 +17,9 @@ import {
   MatInputModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSnackBarModule,
-  MatListModule
-} from '@angular/material';
+  MatSnackBarModule, 
+  MatListModule,
+  MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,9 @@ import {
     MatListModule
   ],
   entryComponents: [TourFormComponent, TourListComponent],
-  providers: [],
+  providers: [
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

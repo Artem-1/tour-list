@@ -32,7 +32,7 @@ export class TourListComponent implements OnInit {
       data: item
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
       this.getTours();
     });

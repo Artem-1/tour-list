@@ -1,5 +1,5 @@
 import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { IOption } from './IOption';
@@ -11,7 +11,7 @@ import { IOption } from './IOption';
 })
 export class AutocampleteWithFilterComponent implements OnInit {
 
-  myControl = new FormControl();
+  myControl = new FormControl('', Validators.required);
   @Output() valueChange = new EventEmitter<string>();
   @Input() selectedValue: IOption;
   @Input() options: IOption[];
@@ -29,7 +29,7 @@ export class AutocampleteWithFilterComponent implements OnInit {
       );
   }
   
-  changed(model: string){
+  changed(model: string) {
       this.valueChange.emit(model);
   }
 

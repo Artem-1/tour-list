@@ -35,12 +35,16 @@ export class TourFormComponent implements OnInit {
 
   ngOnInit() {
     if(this.data != null) {
-      this.tour = this.data;
       this.formMode = false;
+      this.tour = this.data;
     }
     else {
-      this.tour = { date: new Date, client: {name: ""}, excursion: {name: "", excursionSights: []}, excursionSights: [] };
       this.formMode = true;
+      this.tour = { 
+        date: new Date, 
+        client: {name: ""}, 
+        excursion: {name: "", excursionSights: []}, 
+        excursionSights: [] };
     }
     this.getAllExcursions();
     this.getAllClients();
@@ -48,45 +52,38 @@ export class TourFormComponent implements OnInit {
   }
   
   onPushSight() {
-    this.tour.excursion.excursionSights.push( { name: this.inputedSight } );
-    //this.inputedSight = "";
+    this.tour.excursion.excursionSights
+      .push( { name: this.inputedSight } );
   }
 
   onChangeSight($event) {
-    if(typeof $event === 'string')
-      this.inputedSight = $event;
-    else
-      this.inputedSight = $event.name;
+      this.inputedSight = (typeof $event === 'string')
+        ? $event : $event.name;
   }
 
   onChangeExcursion($event) {
-    if(typeof $event === 'string') {
-      this.tour.excursion = { name: $event, excursionSights: [] };
-    }
-    else {
-      this.tour.excursion = $event;
-    }
+      this.tour.excursion = (typeof $event === 'string') 
+        ? { name: $event, excursionSights: [] } : $event;
   }
 
   onChangeClient($event) {
-    if(typeof $event === 'string') {
-      this.tour.client = { name: $event };
-    }
-    else {
-      this.tour.client = $event;
-    }
+      this.tour.client = (typeof $event === 'string')
+        ? { name: $event } : $event;
   }
 
   getAllExcursions() {
-    this.excursionService.getAllExcursions().subscribe(data => this.excursions = data);
+    this.excursionService.getAllExcursions()
+      .subscribe(data => this.excursions = data);
   }
 
   getAllClients() {
-    this.clientService.getAllClients().subscribe(data => this.clients = data);
+    this.clientService.getAllClients()
+      .subscribe(data => this.clients = data);
   }
 
   getAllExcursionSights() {
-    this.excursionSightService.getAllSights().subscribe(data => this.excursionSights = data);
+    this.excursionSightService.getAllSights()
+      .subscribe(data => this.excursionSights = data);
   }
 
   removeSight(sight: ExcursionSight) {
@@ -109,6 +106,7 @@ export class TourFormComponent implements OnInit {
   }
 
   cancel() {
-    this.dialogRef.close();
+    if(confirm("Are you sure that you want to close popap? Your changing will not be saved."))
+      this.dialogRef.close();
   }
 }

@@ -1,6 +1,7 @@
 ﻿using FastMapper.NetCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TourList.Data.Interfaces;
 using TourList.Dto;
 using TourList.Model;
@@ -33,10 +34,13 @@ namespace TourList.Service.Implementation
     {
       var newTour = TypeAdapter.Adapt<Tour>(dto);
 
-      if (_uow.Excursions.FindByName(newTour.Excursion.Name) != null)
+      if (_uow.Excursions.FindByName(newTour?.Excursion.Name) != null)
+      {
+        AddSnapshotSights(newTour);
         newTour.Excursion = null;
+      }
 
-      if (_uow.Clients.FindByName(newTour.Client.Name) != null)
+      if (_uow.Clients.FindByName(newTour?.Client.Name) != null)
         newTour.Client = null;
 
       _uow.Tours.Create(newTour);
@@ -51,10 +55,33 @@ namespace TourList.Service.Implementation
       var tour = _uow.Tours.GetEntity(dto.Id);
 
       if (tour == null)
-        throw new Exception("not find tour");
+        throw new Exception("not found tour");
 
+      AddSnapshotSights(tour);
       _uow.Tours.Update(TypeAdapter.Adapt<Tour>(dto));
       _uow.Save();
+    }
+
+    private void AddSnapshotSights(Tour tour)
+    {
+      var excursionSights = tour.Excursion.ExcursionSights.ToList();
+
+      foreach (var item in excursionSights)
+      {
+        var snapshot = tour.SnapshotSights.FirstOrDefault(ss => ss.Name == item.Name);
+
+        if (snapshot != null)
+          continue;
+
+        snapshot = new SnapshotSight
+        {
+          Id = Guid.NewGuid(),
+          Name = item.Name,
+          TourId = tour.Id
+        };
+
+        _uow.SnapshotSights.Create(snapshot);
+      }
     }
   }
 }

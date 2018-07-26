@@ -29,7 +29,11 @@ namespace TourList.Data.Repositories
 
     public override Tour GetEntity(Guid id)
     {
-      return _dbTours.Include(t => t.Client).Include(t => t.Excursion).SingleOrDefault(t => t.Id == id);
+      return _dbTours
+        .Include(t => t.Client)
+        .Include(t => t.Excursion)
+        .Include(t => t.SnapshotSights)
+        .SingleOrDefault(t => t.Id == id);
     }
 
     public override void Update(Tour tour)
