@@ -3,12 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { UserComponent } from './Component/User/user.component';
-import { TourListComponent } from './Component/tour-list/tour-list.component';
-import { TourFormComponent } from './Component/tour-form/tour-form.component';
+import { TourListComponent } from './dashboard/tour-list/tour-list.component';
+import { TourFormComponent } from './dashboard/tour-form/tour-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AutocampleteWithFilterComponent } from './Component/tour-form/autocamplete-with-filter/autocamplete-with-filter.component';
-
+import { AutocampleteWithFilterComponent } from './dashboard/tour-form/autocamplete-with-filter/autocamplete-with-filter.component';
+import { DashboardModule } from './dashboard/dashboard.module';
 import {
   MatButtonModule,
   MatAutocompleteModule,
@@ -21,10 +20,11 @@ import {
   MatListModule,
   MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
+import { AccountModule } from './account/account.module'
+
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent,
     TourFormComponent,
     TourListComponent,
     AutocampleteWithFilterComponent    
@@ -42,7 +42,10 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatListModule
+    MatListModule,
+
+    AccountModule,
+    DashboardModule
   ],
   entryComponents: [TourFormComponent, TourListComponent],
   providers: [

@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>New tour</h1>
+<hr />
+<!-- <div mat-dialog-content></div> -->
+
+<div class="box">
+  <label>Date:</label>
+  <div>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="tour.date" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <label>Excursion:</label>
+  <app-autocamplete-with-filter (valueChange)="onChangeExcursion($event)" 
+    [selectedValue]="tour.excursion"
+    [options]="excursions">
+  </app-autocamplete-with-filter>
+  
+  <label>Client:</label>
+  <app-autocamplete-with-filter (valueChange)="onChangeClient($event)" 
+    [selectedValue]="tour.client"
+    [options]="clients">
+  </app-autocamplete-with-filter>
+
+  <label>List sights:</label>
+  <mat-list>
+    <mat-list-item *ngFor="let sight of tour.excursion.excursionSights">
+      <p matLine class="sight-item">
+        <span> {{sight.name}} </span>
+        <button mat-button (click)="removeSight(sight)">remove</button>
+      </p>
+    </mat-list-item>
+  </mat-list>
+
+  <label>Excursion sight:</label>
+  <app-autocamplete-with-filter (valueChange)="onChangeSight($event)"
+  [options]="excursionSights">
+  </app-autocamplete-with-filter>
+  <button mat-button (click)="onPushSight()">push</button>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button mat-dialog-close cdkFocusInitial (click)="save()">Save</button>
+  </div>
+</div>

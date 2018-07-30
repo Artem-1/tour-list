@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using TourList.Dto;
@@ -17,6 +18,8 @@ namespace TourList.Controllers
       _services = services;
     }
 
+    //[Authorize]
+    //[Route("getlogin")]
     // GET: api/tour
     [HttpGet]
     public IEnumerable<TourDto> Get()

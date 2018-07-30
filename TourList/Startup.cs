@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TourList.Data;
 using TourList.Helpers;
+using TourList.UserOption;
 
 namespace TourList
 {
@@ -24,6 +26,9 @@ namespace TourList
       services.AddMvc();
       services.AddEntityFrameworkSqlServer();
 
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(AuthOptions.ConfigureOptions);
+
       string connection = Configuration.GetConnectionString("DefaultConnection");
       services.AddDbContext<TourListContext>(options => options.UseSqlServer(connection));
 
@@ -42,6 +47,7 @@ namespace TourList
         app.UseDeveloperExceptionPage();
       }
 
+      app.UseAuthentication();
       app.UseMvc();
     }
   }
