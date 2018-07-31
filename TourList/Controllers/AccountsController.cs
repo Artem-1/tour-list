@@ -28,15 +28,15 @@ namespace TourList.Controllers
       _appDbContext = appDbContext;
     }
 
-    [HttpPost("/login")]
-    public async Task Login([FromBody]LoginModel model)
+    [HttpPost("login")]
+    public async Task Post([FromBody]LoginModel model)
     {
       var encodedJwt = GenerateToken(model);
 
       var response = new
       {
-        access_token = encodedJwt,
-        username = model.EmailAddress
+        token = encodedJwt.Result,
+        email = model.EmailAddress
       };
 
       // сериализация ответа

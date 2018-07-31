@@ -18,7 +18,7 @@ namespace TourList.Controllers
       _services = services;
     }
 
-    //[Authorize]
+    [Authorize]
     //[Route("getlogin")]
     // GET: api/tour
     [HttpGet]
