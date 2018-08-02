@@ -8,19 +8,21 @@ namespace TourList.Data.Configurations
   {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-      builder
-        .Property(u => u.FirstName)
+      builder.HasKey(u => u.Id);
+
+      builder.Property(u => u.FirstName)
         .HasMaxLength(100)
         .IsRequired();
 
-      builder
-        .Property(u => u.EmailAddress)
+      builder.Property(u => u.LastName)
+        .HasMaxLength(100);
+
+      builder.Property(u => u.EmailAddress)
         .HasMaxLength(100)
         .IsRequired();
 
-      builder
-        .Property(u => u.Password)
-        .HasMaxLength(100)
+      builder.Property(u => u.Password)
+        .HasMaxLength(20)
         .IsRequired();
     }
   }

@@ -8,9 +8,15 @@ namespace TourList.Data.Configurations
   {
     public void Configure(EntityTypeBuilder<SnapshotSight> builder)
     {
-      builder
-        .Property(u => u.Name)
+      builder.HasKey(ss => ss.Id);
+
+      builder.Property(ss => ss.Name)
         .HasMaxLength(100)
+        .IsRequired();
+
+      builder.HasOne(ss => ss.Tour)
+        .WithMany(t => t.SnapshotSights)
+        .HasForeignKey(ss => ss.TourId)
         .IsRequired();
     }
   }

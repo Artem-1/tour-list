@@ -8,8 +8,9 @@ namespace TourList.Data.Configurations
   {
     public void Configure(EntityTypeBuilder<Excursion> builder)
     {
-      builder
-        .Property(u => u.Name)
+      builder.HasKey(e => e.Id);
+
+      builder.Property(e => e.Name)
         .HasMaxLength(100)
         .IsRequired();
     }

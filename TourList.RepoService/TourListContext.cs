@@ -17,6 +17,7 @@ namespace TourList.Data
     public TourListContext(DbContextOptions<TourListContext> options)
       : base(options)
     {
+      Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

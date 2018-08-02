@@ -8,8 +8,19 @@ namespace TourList.Data.Configurations
   {
     public void Configure(EntityTypeBuilder<Tour> builder)
     {
-      builder
-        .Property(u => u.Date)
+      builder.HasKey(t => t.Id);
+
+      builder.Property(t => t.Date)
+        .IsRequired();
+
+      builder.HasOne(t => t.Excursion)
+        .WithMany(e => e.Tours)
+        .HasForeignKey(t => t.ExcursionId)
+        .IsRequired();
+
+      builder.HasOne(t => t.Client)
+        .WithMany(c => c.Tours)
+        .HasForeignKey(t => t.ClientId)
         .IsRequired();
     }
   }

@@ -8,8 +8,9 @@ namespace TourList.Data.Configurations
   {
     public void Configure(EntityTypeBuilder<Client> builder)
     {
-      builder
-        .Property(u => u.Name)
+      builder.HasKey(c => c.Id);
+
+      builder.Property(c => c.Name)
         .HasMaxLength(100)
         .IsRequired();
     }
