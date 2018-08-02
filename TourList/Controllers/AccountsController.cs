@@ -29,59 +29,45 @@ namespace TourList.Controllers
     }
 
     [HttpPost("login")]
-    public async Task Post([FromBody]LoginModel model)
+    public IActionResult Login([FromBody]LoginModel model)
     {
-      var encodedJwt = GenerateToken(model);
+      User person = _appDbContext.Users.FirstOrDefault(x => x.EmailAddress == model.EmailAddress && x.Password == model.Password);
+
+      if (person == null)
+        return BadRequest("Invalid email address or password.");
+
+      var identity = GetIdentity(model.EmailAddress);
+      var encodedJwt = GenerateToken(identity);
 
       var response = new
       {
-        token = encodedJwt.Result,
-        email = model.EmailAddress
+        token = encodedJwt,
+        user = new { firstName = person.FirstName, lastName = person.LastName }
       };
 
-      // сериализация ответа
-      Response.ContentType = "application/json";
-      await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+      return Ok(response);
     }
 
-    [HttpPost("/reg")]
+    [HttpPost("reg")]
     public async Task<IActionResult> Register([FromBody]RegisterModel model)
     {
-      if (!ModelState.IsValid)
-      {
-        return BadRequest(ModelState);
-      }
-
-      var userIdentity = TypeAdapter.Adapt<User>(model);
-
+      // service getUserByEmail
       var user = _appDbContext.Users.SingleOrDefault(u => u.EmailAddress == model.EmailAddress);
 
       if (user != null)
-        BadRequest();
+        return BadRequest("user already exist with email address");
 
+      //service add new user
+      var userIdentity = TypeAdapter.Adapt<User>(model);
       userIdentity.Id = Guid.NewGuid();
       await _appDbContext.AddAsync(userIdentity);
       await _appDbContext.SaveChangesAsync();
 
-      return new OkObjectResult("Account created");
+      return Login(new LoginModel { EmailAddress = model.EmailAddress, Password = model.Password });
     }
 
-    //public Task Logout()
-    //{
-    //  //new JwtBearerChallengeContext()
-    //}
-
-    private async Task<string> GenerateToken(LoginModel model)
+    private string GenerateToken(ClaimsIdentity identity)
     {
-      var identity = GetIdentity(model.EmailAddress, model.Password);
-
-      if (identity == null)
-      {
-        Response.StatusCode = 400;
-        await Response.WriteAsync("Invalid username or password.");
-        return null;
-      }
-
       var now = DateTime.UtcNow;
       // создаем JWT-токен
       var jwt = new JwtSecurityToken(
@@ -95,25 +81,18 @@ namespace TourList.Controllers
       return new JwtSecurityTokenHandler().WriteToken(jwt);
     }
 
-    private ClaimsIdentity GetIdentity(string email, string password)
+    private ClaimsIdentity GetIdentity(string email)
     {
-      User person = _appDbContext.Users.FirstOrDefault(x => x.EmailAddress == email && x.Password == password);
-      if (person != null)
+      var claims = new List<Claim>
       {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimsIdentity.DefaultNameClaimType, person.EmailAddress)
-        };
+          new Claim(ClaimsIdentity.DefaultNameClaimType, email)
+      };
 
-        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token",
-            ClaimsIdentity.DefaultNameClaimType,
-            ClaimsIdentity.DefaultRoleClaimType);
+      ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token",
+          ClaimsIdentity.DefaultNameClaimType,
+          ClaimsIdentity.DefaultRoleClaimType);
 
-        return claimsIdentity;
-      }
-
-      // если пользователя не найдено
-      return null;
+      return claimsIdentity;
     }
   }
 }

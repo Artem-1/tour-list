@@ -5,7 +5,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    //req.headers.append('Authorization', 'Bearer ' + localStorage.getItem('auth_token'))
+    //request.headers.append('Authorization', 'Bearer ' + localStorage.getItem('auth_token'))
     request = request.clone({
         setHeaders: {
             Authorization: 'Bearer ' + localStorage.getItem('auth_token')

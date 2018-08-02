@@ -19,12 +19,15 @@ namespace TourList.Controllers
     }
 
     [Authorize]
-    //[Route("getlogin")]
-    // GET: api/tour
-    [HttpGet]
-    public IEnumerable<TourDto> Get()
+    [HttpGet] // GET: api/tour
+    public IActionResult Get()
     {
-      return _services.Tours.GetAll();
+      var tours = _services.Tours.GetAll();
+
+      if (tours != null)
+        return Ok(tours);
+      else
+        return BadRequest(ModelState);
     }
 
     // GET: api/tour/5

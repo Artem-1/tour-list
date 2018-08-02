@@ -46,7 +46,10 @@ namespace TourList
       {
         app.UseDeveloperExceptionPage();
       }
+      else
+        app.UseExceptionHandler();
 
+      app.UseStatusCodePages();
       app.UseAuthentication();
       app.UseMvc();
     }

@@ -1,3 +1,59 @@
-<p>
-  registration-form works!
-</p>
+<div class="container">
+
+  <h2>Register</h2>
+  <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+          <label for="firstName">First name:</label>
+          <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f_firstName.errors }" />
+          <div *ngIf="submitted && f_firstName.errors" class="invalid-feedback">
+            <div *ngIf="f_firstName.errors.required">name is required</div>
+            <div *ngIf="f_firstName.errors.minlength">name is less than 2</div>
+            <div *ngIf="f_firstName.errors.maxlength">name is more than 20</div>
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="lastName">Last name:</label>
+          <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f_lastName.errors }" />
+          <div *ngIf="submitted && f_lastName.errors" class="invalid-feedback">
+              <div *ngIf="f_lastName.errors.required">last name is required</div>
+              <div *ngIf="f_lastName.errors.minlength">last name is less than 2</div>
+              <div *ngIf="f_lastName.errors.maxlength">last name is more than 20</div>
+          </div>
+      </div>
+    <div class="form-group">
+        <label for="email">Email address:</label>
+        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f_email.errors }" />
+        <div *ngIf="submitted && f_email.errors" class="invalid-feedback">
+            <div *ngIf="f_email.errors.required">email is required</div>
+            <div *ngIf="f_email.errors.email">email is not correct</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f_password.errors }" />
+        <small id="passwordHelpBlock" class="form-text text-muted">
+              Your password must be 6-20 characters long
+        </small>
+        <div *ngIf="submitted && f_password.errors" class="invalid-feedback">
+            <div *ngIf="f_password.errors.required">Password is required</div>
+            <div *ngIf="f_password.errors.minlength">Password is less than 6</div>
+            <div *ngIf="f_password.errors.maxlength">Password is more than 20</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="confirmPassword">Confirm password:</label>
+        <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f_confirmPassword.errors }" />
+        <div *ngIf="submitted && f_confirmPassword.errors" class="invalid-feedback">
+            <div *ngIf="f_confirmPassword.errors.notEquivalent">Confirm password is not equivalent password</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+          <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          Registration
+        </button>
+        <span><p class="text-right"><a routerLink="/login">Sign in</a></p></span>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  </form>
+</div>

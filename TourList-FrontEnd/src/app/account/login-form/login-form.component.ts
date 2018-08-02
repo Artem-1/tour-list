@@ -10,9 +10,6 @@ import { UserService } from '../../shared/services/user/user.service';
 })
 export class LoginFormComponent implements OnInit {
 
-  email: string;
-  password: string;
-
   loginForm: FormGroup;
   loading = false;
   submitted = false;
@@ -28,38 +25,44 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(20)
+      ]]
     });
-
+    
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  get f_email() { 
+    return this.loginForm.controls.email;
+  }
   
+  get f_password() {
+    return this.loginForm.controls.password;
+  }
+
   onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
-        return;
+      return;
     }
 
-    //value.emailAddress = "mar@gmail.com";
-    //value.password = '12345';
-
     this.loading = true;
-    this.userService.login(this.f.username.value, this.f.password.value)
-        //.pipe(first())
-        .subscribe(
-            data => {
-                this.router.navigate([this.returnUrl]);
-            },
-            error => {
-                this.error = error;
-                this.loading = false;
-            });
+    this.userService.login(this.f_email.value, this.f_password.value)
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
   }
 }

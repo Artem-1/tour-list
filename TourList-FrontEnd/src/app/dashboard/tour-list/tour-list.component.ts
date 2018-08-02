@@ -3,6 +3,7 @@ import { Tour } from '../shared/models/tour';
 import { TourService } from '../shared/services/tour/tour.service';
 import { MatDialog } from '@angular/material';
 import { TourFormComponent } from '../tour-form/tour-form.component';
+import { UserService } from '../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-tour-list',
@@ -14,14 +15,25 @@ export class TourListComponent implements OnInit {
   tours: Tour[];
   displayedColumns: string[] = ["date", "excursion", "client"];
 
-  constructor(private tourService: TourService, public dialog: MatDialog) { }
+  constructor(
+    private tourService: TourService,
+    private userService: UserService,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.getTours();
   }
 
   getTours() {
-    this.tourService.getAllTours().subscribe(tours => this.tours = tours);
+    this.tourService.getAllTours().subscribe(
+      tours => this.tours = tours,
+      error => {
+        if(error.status == 401) {
+          this.userService.clearToken();
+          console.log('token was expaired');
+        }
+      });
   }
 
   openDialog(item: Tour): void {

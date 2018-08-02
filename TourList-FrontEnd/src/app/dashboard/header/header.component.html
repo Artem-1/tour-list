@@ -1,6 +1,5 @@
-<div style="text-align:center">
-  <p>
-    Hi, {{ username }}! <button style="text-align:right" (click)="logout()">logout</button>
-  </p>
+<div class="d-flex flex-md-row p-3 mb-3 border-bottom shadow-sm">
+    <h5 class="my-0 mr-auto font-weight-normal">Hi, {{ user.firstName }} {{ user.lastName }}!</h5>
+    <button class="btn btn-outline-primary" (click)="logout()">Sign out</button>
 </div>
 
