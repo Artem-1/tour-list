@@ -33,12 +33,21 @@
       </p>
     </mat-list-item>
   </mat-list>
-
+  
   <label>Excursion sight:</label>
-  <app-autocamplete-with-filter (valueChange)="onChangeSight($event)"
-  [options]="excursionSights">
-  </app-autocamplete-with-filter>
-  <button mat-button (click)="onPushSight()">push</button>
+  <div>
+    <mat-form-field>
+      <input type="text"
+        placeholder="put name" 
+        matInput
+        [formControl]="myControlSight"
+        [matAutocomplete]="auto">
+    </mat-form-field>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{ option.name }}</mat-option>
+    </mat-autocomplete>
+    <button mat-button (click)="onPushSight()">push</button>
+  </div>
 
   <div mat-dialog-actions>
     <button mat-button (click)="cancel()">Cancel</button>

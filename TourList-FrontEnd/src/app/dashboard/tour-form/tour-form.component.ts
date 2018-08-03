@@ -9,6 +9,10 @@ import { Tour } from '../shared/models/tour';
 import { Excursion } from '../shared/models/excursion';
 import { ExcursionSight } from '../shared/models/excursion-sight';
 import { Client } from '../shared/models/client';
+import { FormControl, Validators } from '../../../../node_modules/@angular/forms';
+import { Observable } from '../../../../node_modules/rxjs';
+import { IOption } from '../shared/models/IOption';
+import { startWith, map } from '../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-tour-form',
@@ -23,6 +27,9 @@ export class TourFormComponent implements OnInit {
   clients: Client[];
   excursionSights: ExcursionSight[];
   inputedSight: string;
+
+  myControlSight = new FormControl('', Validators.nullValidator);
+  filteredOptions: Observable<IOption[]>;
 
   constructor(
     private tourService: TourService,
@@ -49,16 +56,38 @@ export class TourFormComponent implements OnInit {
     this.getAllExcursions();
     this.getAllClients();
     this.getAllExcursionSights();
+
+    this.filteredOptions = this.myControlSight.valueChanges
+      .pipe(
+        startWith<string | IOption>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.excursionSights)
+      );
   }
   
-  onPushSight() {
-    this.tour.excursion.excursionSights
-      .push( { name: this.inputedSight } );
+  private _filter(name: string) : IOption[] {
+    const filterValue = name.toLowerCase();
+    return this.excursionSights
+      .filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  onChangeSight($event) {
-      this.inputedSight = (typeof $event === 'string')
-        ? $event : $event.name;
+  displayFn(excursion?: IOption): string | undefined {
+    return excursion ? excursion.name : undefined;
+  }
+
+  onPushSight() {
+    if(this.myControlSight.value == "")
+      return;
+
+    this.tour.excursion.excursionSights
+      .push( { name: this.onChangeSight() } );
+    
+    this.myControlSight.setValue('');
+  }
+
+  onChangeSight() {
+      return (typeof this.myControlSight.value === 'string')
+        ? this.myControlSight.value : this.myControlSight.value.name;
   }
 
   onChangeExcursion($event) {
