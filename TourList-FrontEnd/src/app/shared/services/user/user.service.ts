@@ -39,9 +39,7 @@ export class UserService {
       // store username and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem(this.tokenNameStorage, res.token);
       localStorage.setItem(this.userNameStorage, JSON.stringify({ user: res.user }));
-      return true;
     }
-    return false;
   }
 
   clearToken() {
@@ -49,7 +47,7 @@ export class UserService {
   }
 
   isLoggedIn() {
-    return localStorage.getItem(this.tokenNameStorage);
+    return (localStorage.getItem(this.tokenNameStorage)) ? true : false;
   }
 
   protected handleError(error: HttpErrorResponse) {
@@ -58,7 +56,6 @@ export class UserService {
   console.error(
     `Backend returned code ${error.status}, ` +
     `body was: ${error.error}`);
-    
     // return an observable with a user-facing error message
     return throwError(error.error);
   }

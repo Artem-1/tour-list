@@ -1,16 +1,30 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Router } from '../../node_modules/@angular/router';
+import { catchError } from '../../node_modules/rxjs/operators';
+import { UserService } from './shared/services/user/user.service';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
+
+  constructor(private router: Router, private userService: UserService) { }
+  
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    //request.headers.append('Authorization', 'Bearer ' + localStorage.getItem('auth_token'))
-    request = request.clone({
+    let reqClone = request.clone({
         setHeaders: {
             Authorization: 'Bearer ' + localStorage.getItem('auth_token')
         }
     });
-    return next.handle(request);
+
+    return next.handle(reqClone).pipe(catchError(
+      error => {
+        if(error.status == 401) {
+          this.userService.clearToken();
+          console.log('token was expaired');
+          this.router.navigate(['login']);
+        }
+        return next.handle(request);
+      }));
   }
 }

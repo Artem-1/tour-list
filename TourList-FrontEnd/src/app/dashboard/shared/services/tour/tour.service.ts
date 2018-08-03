@@ -43,6 +43,6 @@ export class TourService {
       `Backend returned code ${error.status}, ` +
       `body was: ${error.error}`);
       
-      return throwError(error);
+    return throwError(error);
   }
 }

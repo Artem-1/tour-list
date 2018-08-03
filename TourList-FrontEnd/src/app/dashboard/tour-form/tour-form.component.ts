@@ -1,4 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+
 import { TourService } from '../shared/services/tour/tour.service';
 import { ExcursionService } from '../shared/services/excursion/excursion.service';
 import { ExcursionSightService } from '../shared/services/excursion-sight/excursion-sight.service';
@@ -7,13 +9,11 @@ import { Tour } from '../shared/models/tour';
 import { Excursion } from '../shared/models/excursion';
 import { ExcursionSight } from '../shared/models/excursion-sight';
 import { Client } from '../shared/models/client';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-tour-form',
   templateUrl: './tour-form.component.html',
-  styleUrls: ['./tour-form.component.css'],
-  providers: [TourService, ClientService]
+  styleUrls: ['./tour-form.component.css']
 })
 export class TourFormComponent implements OnInit {
 
@@ -40,10 +40,10 @@ export class TourFormComponent implements OnInit {
     }
     else {
       this.formMode = true;
-      this.tour = { 
-        date: new Date, 
-        client: {name: ""}, 
-        excursion: {name: "", excursionSights: []}, 
+      this.tour = {
+        date: new Date,
+        client: {name: ""},
+        excursion: {name: "", excursionSights: []},
         excursionSights: [] };
     }
     this.getAllExcursions();
