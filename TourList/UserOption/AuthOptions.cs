@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace TourList.UserOption
@@ -39,6 +43,37 @@ namespace TourList.UserOption
         // валидация ключа безопасности
         ValidateIssuerSigningKey = true,
       };
+    }
+
+    public static string GenerateToken(string email)
+    {
+      ClaimsIdentity identity = GetIdentity(email);
+      var now = DateTime.UtcNow;
+      
+      // создаем JWT-токен
+      var jwt = new JwtSecurityToken(
+              issuer: ISSUER,
+              audience: AUDIENCE,
+              notBefore: now,
+              claims: identity.Claims,
+              expires: now.Add(TimeSpan.FromMinutes(LIFETIME)),
+              signingCredentials: new SigningCredentials(GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+      return new JwtSecurityTokenHandler().WriteToken(jwt);
+    }
+
+    private static ClaimsIdentity GetIdentity(string email)
+    {
+      var claims = new List<Claim>
+      {
+          new Claim(ClaimsIdentity.DefaultNameClaimType, email)
+      };
+
+      ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token",
+          ClaimsIdentity.DefaultNameClaimType,
+          ClaimsIdentity.DefaultRoleClaimType);
+
+      return claimsIdentity;
     }
   }
 }

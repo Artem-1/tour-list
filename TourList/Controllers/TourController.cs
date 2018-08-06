@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using TourList.Dto;
+using TourList.Model;
 using TourList.Service.Interfaces;
 
 namespace TourList.Controllers
@@ -27,7 +28,7 @@ namespace TourList.Controllers
       if (tours != null)
         return Ok(tours);
       else
-        return BadRequest(ModelState);
+        return BadRequest("server couldn't get tours");
     }
 
     // GET: api/tour/5
