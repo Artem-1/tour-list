@@ -12,7 +12,7 @@ namespace TourList.UserOption
   {
     public const string ISSUER = "MyAuthServer"; // издатель токена
     public const string AUDIENCE = "localhost"; // потребитель токена
-    public const int LIFETIME = 1; // время жизни токена - 1 минута
+    public const int LIFETIME = 1000; // время жизни токена - 1 минута
 
     private const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
 

@@ -18,9 +18,9 @@ namespace TourList.Controllers
     }
     // GET: api/ExcursionSight
     [HttpGet]
-    public IEnumerable<ExcursionSightDto> Get()
+    public IEnumerable<string> Get()
     {
-      return _services.ExcursionSights.GetAll();
+      return _services.ExcursionSights.GetNames();
     }
 
     // GET: api/ExcursionSight/5

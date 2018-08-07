@@ -21,9 +21,9 @@ namespace TourList.Controllers
 
     // GET: api/client
     [HttpGet]
-    public IEnumerable<ClientDto> Get()
+    public IEnumerable<string> Get()
     {
-      return _services.Clients.GetAll();
+      return _services.Clients.GetNames();
     }
 
     // GET: api/client/5

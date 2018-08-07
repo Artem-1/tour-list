@@ -1,6 +1,7 @@
 ﻿using FastMapper.NetCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TourList.Data.Interfaces;
 using TourList.Dto;
 using TourList.Model;
@@ -20,6 +21,11 @@ namespace TourList.Service.Implementation
     public IEnumerable<ClientDto> GetAll()
     {
       return TypeAdapter.Adapt<IEnumerable<Client>, IEnumerable<ClientDto>>(_uow.Clients.GetAll());
+    }
+
+    public IEnumerable<string> GetNames()
+    {
+      return _uow.Clients.GetAll().Select(c => c.Name);
     }
 
     public ClientDto Get(Guid clientId)

@@ -1,56 +1,102 @@
-<h1 mat-dialog-title>New tour</h1>
+<h1 mat-dialog-title>{{ title }}</h1>
 <hr />
 <!-- <div mat-dialog-content></div> -->
-
-<div class="box">
-  <label>Date:</label>
-  <div>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="tour.date" required>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-
-  <label>Excursion:</label>
-  <app-autocamplete-with-filter (valueChange)="onChangeExcursion($event)" 
-    [selectedValue]="tour.excursion"
-    [options]="excursions">
-  </app-autocamplete-with-filter>
   
-  <label>Client:</label>
-  <app-autocamplete-with-filter (valueChange)="onChangeClient($event)" 
-    [selectedValue]="tour.client"
-    [options]="clients">
-  </app-autocamplete-with-filter>
+<form [formGroup]="tourFg">
+  <div class="main">
+    <div class="field">
+      <label for="picker">Date:</label>
+      <mat-form-field>
+        <input
+          matInput [matDatepicker]="picker"
+          placeholder="Choose a date"
+          formControlName="date"
+          [ngClass]="{ 'is-invalid': submitted && f_date.errors }">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div *ngIf="submitted && f_date.errors" class="alert alert-danger">
+        <div *ngIf="f_date.errors.required">Date is required</div>
+    </div>
 
-  <label>List sights:</label>
-  <mat-list>
-    <mat-list-item *ngFor="let sight of tour.excursion.excursionSights">
-      <p matLine class="sight-item">
-        <span> {{sight.name}} </span>
-        <button mat-button (click)="removeSight(sight)">remove</button>
-      </p>
-    </mat-list-item>
-  </mat-list>
-  
-  <label>Excursion sight:</label>
-  <div>
-    <mat-form-field>
-      <input type="text"
-        placeholder="put name" 
-        matInput
-        [formControl]="myControlSight"
-        [matAutocomplete]="auto">
-    </mat-form-field>
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{ option.name }}</mat-option>
-    </mat-autocomplete>
-    <button mat-button (click)="onPushSight()">push</button>
-  </div>
+    <div class="field">
+      <label for="excursion">Excursion:</label>
+      <mat-form-field>
+        <input type="text"
+          placeholder="excursion name"
+          matInput
+          formControlName="excursionName"
+          [matAutocomplete]="autoExcursion">
+      </mat-form-field>
+      <mat-autocomplete #autoExcursion="matAutocomplete">
+        <mat-option *ngFor="let option of filteredExcursions | async" [value]="option">{{ option }}</mat-option>
+      </mat-autocomplete>
+    </div>
+    <div *ngIf="submitted && f_excursion.errors" class="alert alert-danger">
+        <div *ngIf="f_excursion.errors.required">Excursion name is required</div>
+    </div>
 
-  <div mat-dialog-actions>
-    <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-button mat-dialog-close cdkFocusInitial (click)="save()">Save</button>
+    <div class="field">
+      <label for="client">Client:</label>
+      <mat-form-field>
+        <input type="text"
+          placeholder="client name"
+          matInput
+          formControlName="clientName"
+          [matAutocomplete]="autoClient">
+      </mat-form-field>
+      <mat-autocomplete #autoClient="matAutocomplete">
+        <mat-option *ngFor="let option of filteredClients | async" [value]="option">{{ option }}</mat-option>
+      </mat-autocomplete>
+    </div>
+    <div *ngIf="submitted && f_client.errors" class="alert alert-danger">
+        <div *ngIf="f_client.errors.required">Client name is required</div>
+    </div>
+    <!-- ================= Excursion Sights ================= -->
+
+    <label>List sights:</label>
+    <mat-list>
+      <mat-list-item *ngFor="let sight of f_excursionSightsList.value">
+        <p matLine class="sight-item">
+          <span>{{ sight.name }}</span>
+          <button mat-button (click)="removeSight(sight)">remove</button>
+        </p>
+      </mat-list-item>
+    </mat-list>
+    <div *ngIf="submitted && f_excursionSightsList.errors" class="alert alert-danger">
+        <div *ngIf="f_excursionSightsList.errors.listLength">At least 1 sight should be added</div>
+    </div>
+
+    <label for="excursionSightName">Excursion sight:</label>
+    <div>
+      <mat-form-field>
+        <input type="text"
+          placeholder="excursion sight name"
+          matInput
+          formControlName="excursionSightName"
+          [matAutocomplete]="autoExcursionSight">
+      </mat-form-field>
+      <mat-autocomplete #autoExcursionSight="matAutocomplete">
+        <mat-option *ngFor="let option of filteredExcursionSights | async" [value]="option">{{ option }}</mat-option>
+      </mat-autocomplete>
+      <button mat-button (click)="onPushSight()">push</button>
+    </div>
+    <!-- ================= end Excursion Sights ================= -->
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="save()" cdkFocusInitial>Save</button>
+      <button mat-button (click)="cancel()">Cancel</button>
+    </div>
   </div>
-</div>
+</form>
+
+  <!-- <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f_password.errors }" />
+    <div *ngIf="submitted && f_password.errors" class="invalid-feedback">
+        <div *ngIf="f_password.errors.required">Password is required</div>
+        <div *ngIf="f_password.errors.minlength">Password is less than 6</div>
+        <div *ngIf="f_password.errors.maxlength">Password is more than 20</div>
+    </div>
+  </div> -->

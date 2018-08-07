@@ -1,6 +1,7 @@
 ﻿using FastMapper.NetCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TourList.Data.Interfaces;
 using TourList.Dto;
 using TourList.Model;
@@ -22,6 +23,11 @@ namespace TourList.Service.Implementation
     public IEnumerable<ExcursionSightDto> GetAll()
     {
       return TypeAdapter.Adapt<IEnumerable<ExcursionSight>, IEnumerable<ExcursionSightDto>>(_excursionSights.GetAll());
+    }
+
+    public IEnumerable<string> GetNames()
+    {
+      return _excursionSights.GetAll().Select(es => es.Name);
     }
 
     public ExcursionSightDto Get(Guid id)

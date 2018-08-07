@@ -23,6 +23,11 @@ namespace TourList.Service.Implementation
       return TypeAdapter.Adapt<IEnumerable<Excursion>, IEnumerable<ExcursionDto>>(_uow.Excursions.GetAll());
     }
 
+    public IEnumerable<string> GetNames()
+    {
+      return _uow.Excursions.GetAll().Select(e => e.Name);
+    }
+
     public ExcursionDto Get(Guid excursionId)
     {
       var entity = _uow.Excursions.GetEntity(excursionId);

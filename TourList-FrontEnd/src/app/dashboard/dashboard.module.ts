@@ -19,7 +19,6 @@ import { RootComponent } from './root/root.component';
 import { TourListComponent } from './tour-list/tour-list.component';
 import { TourFormComponent } from './tour-form/tour-form.component';
 import { HeaderComponent } from './header/header.component';
-import { AutocampleteWithFilterComponent } from './tour-form/autocamplete-with-filter/autocamplete-with-filter.component';
 import { AuthGuard } from '../auth.guard';
 import { routing } from './dashboard.routing';
 import { AuthenticationInterceptor } from '../AuthenticationInterceptor';
@@ -47,7 +46,6 @@ import { AuthenticationInterceptor } from '../AuthenticationInterceptor';
     HeaderComponent,
     TourListComponent,
     TourFormComponent,
-    AutocampleteWithFilterComponent
   ],
   entryComponents: [TourFormComponent],
   providers:[
