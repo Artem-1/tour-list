@@ -12,10 +12,14 @@ namespace TourList.Service.Implementation
   public class TourService : ITourService
   {
     private readonly IRepositoryInject _uow;
+    private readonly IExcursionService _excursionService;
+    private readonly IClientService _clientSerivce;
 
-    public TourService(IRepositoryInject repository)
+    public TourService(IRepositoryInject repository, IExcursionService excursionService, IClientService clientSerivce)
     {
       _uow = repository;
+      _excursionService = excursionService;
+      _clientSerivce = clientSerivce;
     }
 
     public IEnumerable<TourDto> GetAll()
@@ -32,7 +36,10 @@ namespace TourList.Service.Implementation
 
     public void Create(TourDto dto)
     {
+      SetTour(dto);
+
       var newTour = TypeAdapter.Adapt<Tour>(dto);
+      newTour.Id = Guid.NewGuid();
 
       if (_uow.Excursions.FindByName(newTour?.Excursion.Name) != null)
       {
@@ -57,9 +64,25 @@ namespace TourList.Service.Implementation
       if (tour == null)
         throw new Exception("not found tour");
 
+      SetTour(dto);
       AddSnapshotSights(tour);
       _uow.Tours.Update(TypeAdapter.Adapt<Tour>(dto));
       _uow.Save();
+    }
+
+    private void SetTour(TourDto dto)
+    {
+      if (dto.Excursion != null)
+      {
+        var ex = _excursionService.SetExcursion(dto.Excursion.Name, dto.Excursion.ExcursionSights);
+        dto.Excursion = _excursionService.Get(ex);
+      }
+
+      if (dto.Client != null && dto.Client.Id == Guid.Empty)
+      {
+        var cl = _clientSerivce.SetClient(dto.Client.Name);
+        dto.Client = _clientSerivce.Get(cl);
+      }
     }
 
     private void AddSnapshotSights(Tour tour)

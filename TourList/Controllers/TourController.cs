@@ -49,18 +49,6 @@ namespace TourList.Controllers
     [HttpPut]
     public void Put([FromBody]TourDto item)
     {
-      if (item.Excursion != null)
-      {
-        var ex = _services.Excursions.SetExcursion(item.Excursion.Name, item.Excursion.ExcursionSights);
-        item.Excursion = _services.Excursions.Get(ex);
-      }
-
-      if (item.Client != null && item.Client.Id == Guid.Empty)
-      {
-        var cl = _services.Clients.SetClient(item.Client.Name);
-        item.Client = _services.Clients.Get(cl);
-      }
-
       _services.Tours.Edit(item);
     }
   }

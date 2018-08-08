@@ -39,16 +39,17 @@ namespace TourList.Service.Implementation
       var excursion = _uow.Excursions.FindByName(name);
 
       if (excursion == null)
-        return Create(name);
+        return Create(name, sights);
 
       SetSights(name, sights);
 
       return excursion.Id;
     }
 
-    private Guid Create(string name)
+    private Guid Create(string name, IEnumerable<ExcursionSightDto> sights)
     {
-      var newExcursion = new Excursion { Id = Guid.NewGuid(), Name = name };
+      var newSights = TypeAdapter.Adapt<IEnumerable<ExcursionSight>>(sights);
+      var newExcursion = new Excursion { Id = Guid.NewGuid(), Name = name, ExcursionSights = newSights };
       _uow.Excursions.Create(newExcursion);
       _uow.Save();
 
