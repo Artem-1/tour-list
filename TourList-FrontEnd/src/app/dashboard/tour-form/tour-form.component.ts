@@ -84,8 +84,12 @@ export class TourFormComponent implements OnInit {
       excursionName: [this.tour.excursion.name, Validators.required],
       clientName: [this.tour.client.name, Validators.required],
 
-      excursionSightsList: this.formBuilder.array(this.tour.excursion.excursionSights, [this.sightLenValidator()]),
+      excursionSightsList: this.formBuilder.array([], [this.sightLenValidator()]),
       excursionSightName: ['', []]
+    });
+
+    this.tour.excursion.excursionSights.forEach(element => {
+      this.addSightToList(element)
     });
 
     this.LoadExcursions();
@@ -139,16 +143,26 @@ export class TourFormComponent implements OnInit {
       });
   }
 
+  public get getSightList(): FormArray {
+    return (<FormArray>this.f_excursionSightsList);
+  }
+
+  addSightToList(item: ExcursionSight): void {
+    (<FormArray>this.f_excursionSightsList).push(
+      this.formBuilder.group({
+        name: [item.name, []]
+      })
+    );
+  }
+
   onPushSight() {
-    this.f_excursionSightsList.value
-      .push({ name: this.f_excursionSight.value });
-    
+    this.addSightToList({ name: this.f_excursionSight.value });
     this.f_excursionSight.setValue('');
   }
 
   removeSight(sight: ExcursionSight) {
     let index = this.f_excursionSightsList.value.indexOf(sight);
-        this.f_excursionSightsList.value.splice(index, 1);
+    (<FormArray>this.f_excursionSightsList).removeAt(index);
   }
   
   save() {
