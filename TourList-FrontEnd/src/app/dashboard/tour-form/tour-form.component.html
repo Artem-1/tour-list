@@ -35,6 +35,8 @@
     </div>
     <div *ngIf="submitted && f_excursion.errors" class="alert alert-danger">
         <div *ngIf="f_excursion.errors.required">Excursion name is required</div>
+        <div *ngIf="f_client.errors.minlength">Excursion name is less than 2</div>
+        <div *ngIf="f_client.errors.maxlength">Excursion name is more than 50</div>
     </div>
 
     <div class="field">
@@ -52,13 +54,15 @@
     </div>
     <div *ngIf="submitted && f_client.errors" class="alert alert-danger">
         <div *ngIf="f_client.errors.required">Client name is required</div>
+        <div *ngIf="f_client.errors.minlength">Client name is less than 2</div>
+        <div *ngIf="f_client.errors.maxlength">Client name is more than 50</div>
     </div>
     <!-- ================= Excursion Sights ================= -->
 
     <label>List sights:</label>
     <mat-list>
       <mat-list-item *ngFor="let sight of f_excursionSightsList.value">
-        <p matLine class="sight-item">
+        <p matLine class="sight-item list-group-item-primary">
           <span>{{ sight.name }}</span>
           <button mat-button (click)="removeSight(sight)">remove</button>
         </p>
@@ -80,23 +84,13 @@
       <mat-autocomplete #autoExcursionSight="matAutocomplete">
         <mat-option *ngFor="let option of filteredExcursionSights | async" [value]="option">{{ option }}</mat-option>
       </mat-autocomplete>
-      <button mat-button (click)="onPushSight()">push</button>
+      <button type="button" class="push btn btn-info" (click)="onPushSight()">push</button>
     </div>
     <!-- ================= end Excursion Sights ================= -->
 
-    <div mat-dialog-actions>
-      <button mat-button (click)="save()" cdkFocusInitial>Save</button>
-      <button mat-button (click)="cancel()">Cancel</button>
+    <div class="button-action">
+      <button type="button" class="btn btn-success" (click)="save()" cdkFocusInitial>Save</button>
+      <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
     </div>
   </div>
 </form>
-
-  <!-- <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f_password.errors }" />
-    <div *ngIf="submitted && f_password.errors" class="invalid-feedback">
-        <div *ngIf="f_password.errors.required">Password is required</div>
-        <div *ngIf="f_password.errors.minlength">Password is less than 6</div>
-        <div *ngIf="f_password.errors.maxlength">Password is more than 20</div>
-    </div>
-  </div> -->

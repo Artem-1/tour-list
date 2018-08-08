@@ -81,8 +81,8 @@ export class TourFormComponent implements OnInit {
 
     this.tourFg = this.formBuilder.group({
       date: [this.tour.date, Validators.required],
-      excursionName: [this.tour.excursion.name, Validators.required],
-      clientName: [this.tour.client.name, Validators.required],
+      excursionName: [this.tour.excursion.name, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      clientName: [this.tour.client.name, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
 
       excursionSightsList: this.formBuilder.array([], [this.sightLenValidator()]),
       excursionSightName: ['', []]
@@ -141,10 +141,6 @@ export class TourFormComponent implements OnInit {
         this.filteredExcursionSights =
           this.getFilteredWithName(this.f_excursionSight, data);
       });
-  }
-
-  public get getSightList(): FormArray {
-    return (<FormArray>this.f_excursionSightsList);
   }
 
   addSightToList(item: ExcursionSight): void {

@@ -31,7 +31,7 @@ export class TourListComponent implements OnInit {
   openDialog(item: Tour): void {
     const dialogRef = this.dialog.open(TourFormComponent, {
       height: '500px',
-      width: '500px',
+      width: '380px',
       data: item
     });
 

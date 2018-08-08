@@ -1,7 +1,33 @@
 p.sight-item {
-    background-color: rgb(182, 240, 220);
+    clear: both;
+    text-align: right;
+    line-height: 40px;
 }
-
-div.main { float: left }
-div.field { clear: both; text-align: right; line-height: 50px; }
-div.field label { float: left; padding-right: 5px; }
+p.sight-item span {
+    float: left;
+    margin-left: 10px;
+}
+div.main {
+    float: left
+}
+div.field {
+    clear: both;
+    text-align: right;
+    line-height: 50px;
+}
+div.field label {
+    float: left;
+    padding-right: 5px;
+}
+div.button-action {
+    clear: both;
+    text-align: right;
+    margin-top: 20px;
+}
+div.button-action button {
+    width: 85px;
+    margin-left: 5px;
+}
+button.push  {
+    margin-left: 15px;
+}
