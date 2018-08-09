@@ -60,11 +60,11 @@
     <!-- ================= Excursion Sights ================= -->
 
     <label>List sights:</label>
-    <mat-list>
-      <mat-list-item *ngFor="let sight of f_excursionSightsList.value">
+    <mat-list dragula="VAMPIRES">
+      <mat-list-item *ngFor="let sight of f_excursionSightsList.value" >
         <p matLine class="sight-item list-group-item-primary">
           <span>{{ sight.name }}</span>
-          <button mat-button (click)="removeSight(sight)">remove</button>
+          <button mat-button (click)="onRemoveSight(sight)">remove</button>
         </p>
       </mat-list-item>
     </mat-list>

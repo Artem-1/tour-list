@@ -22,12 +22,10 @@ export class TourFormComponent implements OnInit {
 
   title: string;
   tourFg: FormGroup;
-  loading = false;
   submitted = false;
   formMode = false;
 
   tour: Tour;
-  excursionSight: string[];
 
   filteredExcursions: Observable<string[]>;
   filteredClients: Observable<string[]>;
@@ -119,6 +117,14 @@ export class TourFormComponent implements OnInit {
     }
   }
 
+  private addSightToList(item: ExcursionSight): void {
+    (<FormArray>this.f_excursionSightsList).push(
+      this.formBuilder.group({
+        name: [item.name, []]
+      })
+    );
+  }
+
   LoadExcursions() {
     this.excursionService.getAllExcursions()
       .subscribe(data => {
@@ -143,20 +149,12 @@ export class TourFormComponent implements OnInit {
       });
   }
 
-  addSightToList(item: ExcursionSight): void {
-    (<FormArray>this.f_excursionSightsList).push(
-      this.formBuilder.group({
-        name: [item.name, []]
-      })
-    );
-  }
-
   onPushSight() {
     this.addSightToList({ name: this.f_excursionSight.value });
     this.f_excursionSight.setValue('');
   }
 
-  removeSight(sight: ExcursionSight) {
+  onRemoveSight(sight: ExcursionSight) {
     let index = this.f_excursionSightsList.value.indexOf(sight);
     (<FormArray>this.f_excursionSightsList).removeAt(index);
   }
@@ -169,7 +167,6 @@ export class TourFormComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
     var message: string;
 
     this.tour.date = this.f_date.value;
@@ -193,7 +190,7 @@ export class TourFormComponent implements OnInit {
   }
 
   cancel() {
-    //if(confirm("Are you sure that you want to close popap? Your changing will not be saved."))
+    if(confirm("Are you sure that you want to close popap? Your changing will not be saved."))
       this.dialogRef.close();
   }
 }

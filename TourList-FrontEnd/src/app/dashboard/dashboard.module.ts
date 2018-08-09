@@ -15,6 +15,8 @@ import {
   MatListModule,
   MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
+import { DragulaModule } from 'ng2-dragula';
+
 import { RootComponent } from './root/root.component';
 import { TourListComponent } from './tour-list/tour-list.component';
 import { TourFormComponent } from './tour-form/tour-form.component';
@@ -39,6 +41,7 @@ import { AuthenticationInterceptor } from '../AuthenticationInterceptor';
     MatNativeDateModule,
     MatSnackBarModule,
     MatListModule,
+    DragulaModule.forRoot(),
     routing
   ],
   declarations: [
