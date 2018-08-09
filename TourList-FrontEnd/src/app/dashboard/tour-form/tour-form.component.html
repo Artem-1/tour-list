@@ -35,8 +35,8 @@
     </div>
     <div *ngIf="submitted && f_excursion.errors" class="alert alert-danger">
         <div *ngIf="f_excursion.errors.required">Excursion name is required</div>
-        <div *ngIf="f_client.errors.minlength">Excursion name is less than 2</div>
-        <div *ngIf="f_client.errors.maxlength">Excursion name is more than 50</div>
+        <div *ngIf="f_excursion.errors.minlength">Excursion name is less than 2</div>
+        <div *ngIf="f_excursion.errors.maxlength">Excursion name is more than 50</div>
     </div>
 
     <div class="field">
