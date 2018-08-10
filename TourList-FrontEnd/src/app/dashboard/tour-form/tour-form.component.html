@@ -29,7 +29,7 @@
           formControlName="excursionName"
           [matAutocomplete]="autoExcursion">
       </mat-form-field>
-      <mat-autocomplete #autoExcursion="matAutocomplete">
+      <mat-autocomplete #autoExcursion="matAutocomplete" (optionSelected)="onSelectedExcursion($event)">
         <mat-option *ngFor="let option of filteredExcursions | async" [value]="option">{{ option }}</mat-option>
       </mat-autocomplete>
     </div>

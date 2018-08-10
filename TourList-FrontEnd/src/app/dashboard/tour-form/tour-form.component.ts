@@ -24,6 +24,7 @@ export class TourFormComponent implements OnInit {
   formMode = false;
   submitted = false;
   sightFg: FormGroup;
+  addedNewSights: ExcursionSight[] = [];
 
   filteredExcursions: Observable<string[]>;
   filteredClients: Observable<string[]>;
@@ -150,12 +151,23 @@ export class TourFormComponent implements OnInit {
       });
   }
 
+  LoadExcursionSightsToList(name: string) {
+    this.excursionService.getSights(name)
+      .subscribe(data => {
+        data.forEach(item => {
+          this.addSightToList(item);
+        });
+      });
+  }
+
   onPushSight() {
     if(this.sightFg.invalid)
       return;
 
-    this.addSightToList({ name: this.f_excursionSight.value });
+    let newSight = { name: this.f_excursionSight.value };
+    this.addSightToList(newSight);
     this.f_excursionSight.setValue('');
+    this.addedNewSights.push(newSight);
   }
 
   onRemoveSight(sight: ExcursionSight) {
@@ -163,6 +175,28 @@ export class TourFormComponent implements OnInit {
     (<FormArray>this.f_excursionSightsList).removeAt(index);
   }
   
+  onSelectedExcursion($event) {
+    let oldSights = <Array<ExcursionSight>>this.f_excursionSightsList.value;
+
+    // remove items related with excursion
+    for(let item of oldSights) {
+      let removeItem = true;
+      for(let addedItem of this.addedNewSights) {
+        if(addedItem.name !== item.name) {
+          continue;
+        }
+        removeItem = false;
+        break;
+      }
+      if(removeItem) {
+        this.onRemoveSight(item);
+        removeItem = true;
+      }
+    }
+
+    this.LoadExcursionSightsToList($event.option.value);
+  }
+
   save() {
     this.submitted = true;
 

@@ -75,5 +75,15 @@ namespace TourList.Service.Implementation
 
       _uow.Save();
     }
+
+    public IEnumerable<ExcursionSightDto> GetSights(string nameExcursion)
+    {
+      var sights = _uow.Excursions.FindByName(nameExcursion)?.ExcursionSights;
+
+      if (sights == null)
+        return null;
+
+      return TypeAdapter.Adapt<IEnumerable<ExcursionSightDto>>(sights);
+    }
   }
 }

@@ -11,5 +11,6 @@ namespace TourList.Service.Interfaces
     ExcursionDto Get(Guid excursionId);
     Guid SetExcursion(string name, IEnumerable<ExcursionSightDto> sights);
     void SetSights(string name, IEnumerable<ExcursionSightDto> sights);
+    IEnumerable<ExcursionSightDto> GetSights(string nameExcursion);
   }
 }

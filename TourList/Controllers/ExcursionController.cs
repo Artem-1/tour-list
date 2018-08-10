@@ -24,11 +24,13 @@ namespace TourList.Controllers
       return _services.Excursions.GetNames();
     }
 
-    // GET: api/Excursion/5
-    [HttpGet("{id}")]
-    public ExcursionDto Get(Guid id)
+    // GET: api/Excursion/sights
+    [Route("/{name}")]
+    [HttpGet("{name}")]
+    public IActionResult Get(string name)
     {
-      return _services.Excursions.Get(id);
+      var sights = _services.Excursions.GetSights(name);
+      return Ok(sights);
     }
 
     // POST: api/Excursion
