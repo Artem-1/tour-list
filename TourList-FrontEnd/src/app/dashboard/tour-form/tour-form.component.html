@@ -63,7 +63,7 @@
     <mat-list dragula="VAMPIRES">
       <mat-list-item *ngFor="let sight of f_excursionSightsList.value" >
         <p matLine class="sight-item list-group-item-primary">
-          <span>{{ sight.name }}</span>
+          <span class="text-truncate">{{ sight.name }}</span>
           <button mat-button (click)="onRemoveSight(sight)">remove</button>
         </p>
       </mat-list-item>

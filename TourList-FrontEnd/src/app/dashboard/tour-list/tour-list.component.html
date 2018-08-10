@@ -23,5 +23,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let tour; columns: displayedColumns;" class="tour-item" (click)="onEdit(tour)"></tr>
   </table>
-  
+  <div class="shadow p-3 mb-5 bg-white rounded" *ngIf="tours == null || tours == undefined || tours.length <= 0">
+    <p class="form-text text-muted text-center">no one tour exists</p>
+  </div>
 </div>

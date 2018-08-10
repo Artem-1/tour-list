@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { Validators, FormGroup, FormBuilder, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 import { TourService } from '../shared/services/tour/tour.service';
 import { ExcursionService } from '../shared/services/excursion/excursion.service';
@@ -7,9 +10,6 @@ import { ExcursionSightService } from '../shared/services/excursion-sight/excurs
 import { ClientService } from '../shared/services/client/client.service';
 import { Tour } from '../shared/models/tour';
 import { ExcursionSight } from '../shared/models/excursion-sight';
-import { Validators, FormGroup, FormBuilder, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tour-form',
@@ -72,7 +72,7 @@ export class TourFormComponent implements OnInit {
         date: new Date,
         client: {name: ""},
         excursion: {name: "", excursionSights: []},
-        excursionSights: [] };
+        snapshotSights: [] };
     }
 
     this.tourFg = this.formBuilder.group({

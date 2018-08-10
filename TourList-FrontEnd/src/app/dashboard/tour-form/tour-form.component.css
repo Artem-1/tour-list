@@ -31,3 +31,7 @@ div.button-action button {
 button.push  {
     margin-left: 15px;
 }
+
+.sight-item span {
+    max-width: 150px;
+}

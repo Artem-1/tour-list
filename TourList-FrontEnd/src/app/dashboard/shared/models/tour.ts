@@ -7,5 +7,5 @@ export class Tour {
     date: Date;
     client: Client;
     excursion: Excursion;
-    excursionSights: ExcursionSight[];
+    snapshotSights: ExcursionSight[];
 }
