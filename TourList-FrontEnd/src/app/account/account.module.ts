@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 import { routing } from './account.routing';
+import { ReAuthGuard } from '../re-auth.guard';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { routing } from './account.routing';
     HttpClientModule,
     routing
   ],
-  declarations: [LoginFormComponent, RegistrationFormComponent]
+  declarations: [LoginFormComponent, RegistrationFormComponent],
+  providers:[ReAuthGuard]
 })
 export class AccountModule { }

@@ -13,7 +13,7 @@ export class LoginFormComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
-  returnUrl: string;
+  returnUrl: string = 'tours';
   error = '';
 
   constructor(
@@ -32,9 +32,6 @@ export class LoginFormComponent implements OnInit {
         Validators.maxLength(20)
       ]]
     });
-    
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   // convenience getter for easy access to form fields
