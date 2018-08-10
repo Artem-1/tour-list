@@ -17,7 +17,12 @@ namespace TourList.Service.Implementation
 
     public UserDto Authentication(string email, string password)
     {
-      return TypeAdapter.Adapt<UserDto>(_uow.Users.Authentication(email, password));
+      var user = _uow.Users.Authentication(email, password);
+
+      if (user == null)
+        return null;
+
+      return TypeAdapter.Adapt<UserDto>(user);
     }
 
     public UserDto Register(UserDto newUser)
@@ -30,7 +35,8 @@ namespace TourList.Service.Implementation
       _uow.Users.Create(TypeAdapter.Adapt<User>(newUser));
       _uow.Save();
 
-      return TypeAdapter.Adapt<UserDto>(user);
+      var createdUser = _uow.Users.FindByEmail(newUser.EmailAddress);
+      return TypeAdapter.Adapt<UserDto>(createdUser);
     }
   }
 }

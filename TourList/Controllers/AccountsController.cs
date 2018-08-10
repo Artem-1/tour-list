@@ -22,10 +22,12 @@ namespace TourList.Controllers
     [HttpPost("login")]
     public IActionResult Login([FromBody]LoginModel model)
     {
-      User person = TypeAdapter.Adapt<User>(_services.Users.Authentication(model.EmailAddress, model.Password));
+      var user = _services.Users.Authentication(model.EmailAddress, model.Password);
 
-      if (person == null)
+      if (user == null)
         return BadRequest("Invalid email address or password.");
+
+      User person = TypeAdapter.Adapt<User>(user);
 
       var encodedJwt = AuthOptions.GenerateToken(model.EmailAddress);
 
