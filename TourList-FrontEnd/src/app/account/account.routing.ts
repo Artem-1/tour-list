@@ -5,6 +5,6 @@ import { RegistrationFormComponent }    from './registration-form/registration-f
 import { LoginFormComponent }    from './login-form/login-form.component';
 
 export const routing: ModuleWithProviders = RouterModule.forChild([
-  { path: 'reg', component: RegistrationFormComponent },
-  { path: 'login', component: LoginFormComponent }
+  { path: 'reg', component: RegistrationFormComponent, canActivate: [ReAuthGuard] },
+  { path: '', component: LoginFormComponent, canActivate: [ReAuthGuard] }
 ]);

@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Router } from '../../node_modules/@angular/router';
-import { catchError } from '../../node_modules/rxjs/operators';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 import { UserService } from './shared/services/user/user.service';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         if(error.status == 401) {
           this.userService.clearToken();
           console.log('token was expaired');
-          this.router.navigate(['login']);
+          this.router.navigate(['']);
         }
         return next.handle(request);
       }));

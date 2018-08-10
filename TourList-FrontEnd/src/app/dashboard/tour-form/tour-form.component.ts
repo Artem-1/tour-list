@@ -6,12 +6,10 @@ import { ExcursionService } from '../shared/services/excursion/excursion.service
 import { ExcursionSightService } from '../shared/services/excursion-sight/excursion-sight.service';
 import { ClientService } from '../shared/services/client/client.service';
 import { Tour } from '../shared/models/tour';
-import { Excursion } from '../shared/models/excursion';
 import { ExcursionSight } from '../shared/models/excursion-sight';
-import { Client } from '../shared/models/client';
-import { Validators, FormGroup, FormBuilder, AbstractControl, ValidatorFn, FormArray } from '../../../../node_modules/@angular/forms';
-import { Observable } from '../../../../node_modules/rxjs';
-import { startWith, map } from '../../../../node_modules/rxjs/operators';
+import { Validators, FormGroup, FormBuilder, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tour-form',
@@ -21,11 +19,11 @@ import { startWith, map } from '../../../../node_modules/rxjs/operators';
 export class TourFormComponent implements OnInit {
 
   title: string;
-  tourFg: FormGroup;
-  submitted = false;
-  formMode = false;
-
   tour: Tour;
+  tourFg: FormGroup;
+  formMode = false;
+  submitted = false;
+  sightFg: FormGroup;
 
   filteredExcursions: Observable<string[]>;
   filteredClients: Observable<string[]>;
@@ -43,12 +41,12 @@ export class TourFormComponent implements OnInit {
     return this.tourFg.controls.clientName;
   }
 
-  get f_excursionSight() {
-    return this.tourFg.controls.excursionSightName;
-  }
-
   get f_excursionSightsList() {
     return this.tourFg.controls.excursionSightsList;
+  }
+
+  get f_excursionSight() {
+    return this.sightFg.controls.excursionSightName;
   }
 
   constructor(
@@ -83,11 +81,14 @@ export class TourFormComponent implements OnInit {
       clientName: [this.tour.client.name, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
 
       excursionSightsList: this.formBuilder.array([], [this.sightLenValidator()]),
-      excursionSightName: ['', []]
     });
 
     this.tour.excursion.excursionSights.forEach(element => {
       this.addSightToList(element)
+    });
+
+    this.sightFg = this.formBuilder.group({
+      excursionSightName: ['', [Validators.required, Validators.minLength(2)]]
     });
 
     this.LoadExcursions();
@@ -150,6 +151,9 @@ export class TourFormComponent implements OnInit {
   }
 
   onPushSight() {
+    if(this.sightFg.invalid)
+      return;
+
     this.addSightToList({ name: this.f_excursionSight.value });
     this.f_excursionSight.setValue('');
   }

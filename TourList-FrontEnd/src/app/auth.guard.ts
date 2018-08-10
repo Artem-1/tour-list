@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { UserService } from './shared/services/user/user.service';
-import { Observable } from '../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate() : Observable<boolean> | Promise<boolean> | boolean {
     if(!this.user.isLoggedIn())
-       this.router.navigate(['login']);
+       this.router.navigate(['']);
        
     return this.user.isLoggedIn();
   }

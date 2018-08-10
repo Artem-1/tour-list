@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UrlToApi } from '../../../../shared/services/config-service';
 import { Tour } from '../../models/tour';
-import { catchError } from '../../../../../../node_modules/rxjs/operators';
-import { throwError } from '../../../../../../node_modules/rxjs';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

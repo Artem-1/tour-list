@@ -8,8 +8,7 @@ import { TourListComponent } from './tour-list/tour-list.component';
 export const routing: ModuleWithProviders = RouterModule.forChild([
     { path: '', component: RootComponent, canActivate: [AuthGuard],
         children: [
-            { path: 'tours', component: TourListComponent },
-            { path: '', component: TourListComponent }
+            { path: 'tours', component: TourListComponent }
         ]
     },
 ]);

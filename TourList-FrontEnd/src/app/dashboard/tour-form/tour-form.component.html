@@ -72,20 +72,22 @@
         <div *ngIf="f_excursionSightsList.errors.listLength">At least 1 sight should be added</div>
     </div>
 
-    <label for="excursionSightName">Excursion sight:</label>
-    <div>
-      <mat-form-field>
-        <input type="text"
-          placeholder="excursion sight name"
-          matInput
-          formControlName="excursionSightName"
-          [matAutocomplete]="autoExcursionSight">
-      </mat-form-field>
-      <mat-autocomplete #autoExcursionSight="matAutocomplete">
-        <mat-option *ngFor="let option of filteredExcursionSights | async" [value]="option">{{ option }}</mat-option>
-      </mat-autocomplete>
-      <button type="button" class="push btn btn-info" (click)="onPushSight()">push</button>
-    </div>
+    <form [formGroup]="sightFg">
+      <label for="excursionSightName">Excursion sight:</label>
+      <div>
+        <mat-form-field>
+          <input type="text"
+            placeholder="excursion sight name"
+            matInput
+            formControlName="excursionSightName"
+            [matAutocomplete]="autoExcursionSight">
+        </mat-form-field>
+        <mat-autocomplete #autoExcursionSight="matAutocomplete">
+          <mat-option *ngFor="let option of filteredExcursionSights | async" [value]="option">{{ option }}</mat-option>
+        </mat-autocomplete>
+        <button type="button" class="push btn btn-info" (click)="onPushSight()">push</button>
+      </div>
+    </form>
     <!-- ================= end Excursion Sights ================= -->
 
     <div class="button-action">
