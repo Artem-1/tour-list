@@ -208,7 +208,7 @@ export class TourFormComponent implements OnInit {
     let message: string;
     let newDate = this.f_date.value;
 
-    this.tour.date = newDate.toDateString();
+    this.tour.date = new Date(newDate).toDateString();
     this.tour.client = { name: this.f_client.value };
     this.tour.excursion = {
       name: this.f_excursion.value,
