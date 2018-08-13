@@ -70,9 +70,9 @@ export class TourFormComponent implements OnInit {
       this.formMode = true;
       this.title = "New tour";
       this.tour = {
-        date: new Date,
-        client: {name: ""},
-        excursion: {name: "", excursionSights: []},
+        date: '',
+        client: {name: ''},
+        excursion: {name: '', excursionSights: []},
         snapshotSights: [] };
     }
 
@@ -205,9 +205,10 @@ export class TourFormComponent implements OnInit {
       return;
     }
 
-    var message: string;
+    let message: string;
+    let newDate = this.f_date.value;
 
-    this.tour.date = this.f_date.value;
+    this.tour.date = newDate.toDateString();
     this.tour.client = { name: this.f_client.value };
     this.tour.excursion = {
       name: this.f_excursion.value,

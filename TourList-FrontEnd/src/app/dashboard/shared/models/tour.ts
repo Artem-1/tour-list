@@ -4,7 +4,7 @@ import { ExcursionSight } from './excursion-sight';
 
 export class Tour {
     id?: string;
-    date: Date;
+    date: string;
     client: Client;
     excursion: Excursion;
     snapshotSights: ExcursionSight[];
