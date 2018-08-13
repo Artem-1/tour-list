@@ -6,9 +6,7 @@ import { UrlToApi } from '../config-service';
 import { User } from '../../models/user';
 import { map, catchError } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService {
 
   baseUrl = UrlToApi + 'api/accounts/';

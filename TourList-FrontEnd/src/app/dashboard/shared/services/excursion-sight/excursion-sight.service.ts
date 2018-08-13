@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UrlToApi } from '../../../../shared/services/config-service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ExcursionSightService {
 
   baseUrl = UrlToApi + 'api/ExcursionSight/';

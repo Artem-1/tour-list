@@ -24,6 +24,10 @@ import { HeaderComponent } from './header/header.component';
 import { AuthGuard } from '../auth.guard';
 import { routing } from './dashboard.routing';
 import { AuthenticationInterceptor } from '../AuthenticationInterceptor';
+import { TourService } from './shared/services/tour/tour.service';
+import { ClientService } from './shared/services/client/client.service';
+import { ExcursionService } from './shared/services/excursion/excursion.service';
+import { ExcursionSightService } from './shared/services/excursion-sight/excursion-sight.service';
 
 @NgModule({
   imports: [
@@ -52,6 +56,10 @@ import { AuthenticationInterceptor } from '../AuthenticationInterceptor';
   ],
   entryComponents: [TourFormComponent],
   providers:[
+    TourService,
+    ClientService,
+    ExcursionService,
+    ExcursionSightService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

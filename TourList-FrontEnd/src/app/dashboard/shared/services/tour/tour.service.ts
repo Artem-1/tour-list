@@ -5,9 +5,7 @@ import { Tour } from '../../models/tour';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TourService {
 
   private baseUrl = UrlToApi + 'api/tour/';
